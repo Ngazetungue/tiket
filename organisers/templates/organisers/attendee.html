@@ -1,0 +1,443 @@
+{% extends "organisers/base-dash.html" %}
+
+{% block content %}
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-900">Attendee Management</h2>
+                <p class="text-gray-600">Scan tickets and manage event attendees</p>
+            </div>
+            <div class="mt-4 md:mt-0 flex space-x-3">
+                <div class="relative">
+                    <select class="appearance-none bg-white border border-gray-300 rounded-md pl-3 pr-8 py-2 text-sm focus:outline-none focus:ring-red-500 focus:border-red-500">
+                        <option>All Events</option>
+                        <option selected>Windhoek Jazz Festival (May 15-17)</option>
+                        <option>Swakopmund Food Fair (June 5)</option>
+                        <option>Startup Namibia Conference (July 10-11)</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </div>
+                </div>
+                <button class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm flex items-center">
+                    <i class="fas fa-file-export mr-2"></i> Export
+                </button>
+            </div>
+        </div>
+
+        <!-- Scanner Section -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-8 p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Scan Attendee Ticket</h3>
+            
+            <div id="reader" class="mb-6"></div>
+            
+            <div id="scan-result" class="hidden p-4 rounded-lg mb-4 text-center">
+                <div id="scan-message" class="font-medium"></div>
+                <div id="attendee-details" class="mt-2 text-sm text-gray-600"></div>
+            </div>
+            
+            <div class="flex justify-center">
+                <button id="manual-entry-btn" class="text-red-600 hover:text-red-700 text-sm font-medium flex items-center">
+                    <i class="fas fa-keyboard mr-1"></i> Enter Ticket Code Manually
+                </button>
+            </div>
+        </div>
+
+        <!-- Manual Entry Modal -->
+        <div id="manual-entry-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden">
+            <div class="bg-white rounded-lg shadow-xl max-w-md w-full">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Manual Ticket Entry</h3>
+                        <button id="close-manual-modal" class="text-gray-400 hover:text-gray-500">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="mb-4">
+                        <label for="ticket-code" class="block text-sm font-medium text-gray-700 mb-1">Ticket Code</label>
+                        <input type="text" id="ticket-code" class="focus:ring-red-500 focus:border-red-500 block w-full px-3 py-2 border-gray-300 rounded-md" placeholder="Enter QR code or ticket number">
+                    </div>
+                    <div class="mt-6 flex justify-end space-x-3">
+                        <button id="cancel-manual-entry" type="button" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                            Cancel
+                        </button>
+                        <button id="verify-ticket" type="button" class="px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700">
+                            Verify Ticket
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attendee List -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+                <h3 class="text-lg font-semibold text-gray-900">Attendees (124 checked in of 250)</h3>
+                <div class="relative">
+                    <input type="text" placeholder="Search attendees..." class="pl-8 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-red-500 focus:border-red-500">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ticket Type</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Check-in Time</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200" id="attendee-table-body">
+                        <!-- Attendee 1 -->
+                        <tr class="checked-in">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-red-100 flex items-center justify-center">
+                                        <span class="text-red-600 font-medium">JM</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">John Mbeki</div>
+                                        <div class="text-sm text-gray-500">#TK-78945</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">VIP Pass</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <div>john.mbeki@example.com</div>
+                                <div>+264 81 123 4567</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <div>May 15, 2025</div>
+                                <div>14:32</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">
+                                    <i class="fas fa-check-circle mr-1"></i> Checked In
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <button class="text-red-600 hover:text-red-900 mr-3">
+                                    <i class="fas fa-undo"></i>
+                                </button>
+                                <button class="text-gray-600 hover:text-gray-900">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <!-- Attendee 2 -->
+                        <tr class="not-checked-in">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                        <span class="text-blue-600 font-medium">SA</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">Sarah Amutenya</div>
+                                        <div class="text-sm text-gray-500">#TK-78231</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">General Admission</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <div>sarah.a@example.com</div>
+                                <div>+264 85 987 6543</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">
+                                    <i class="fas fa-clock mr-1"></i> Not Checked In
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <button class="text-green-600 hover:text-green-900 mr-3">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button class="text-gray-600 hover:text-gray-900">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <!-- Attendee 3 -->
+                        <tr class="duplicate-attempt">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center">
+                                        <span class="text-purple-600 font-medium">DK</span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">David Kambonde</div>
+                                        <div class="text-sm text-gray-500">#TK-78109</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">VIP Pass</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <div>david.k@example.com</div>
+                                <div>+264 81 555 1234</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <div>May 15, 2025</div>
+                                <div>15:47 (Duplicate)</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">
+                                    <i class="fas fa-times-circle mr-1"></i> Duplicate
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <button class="text-gray-600 hover:text-gray-900">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-4 border-t border-gray-200 flex justify-between items-center">
+                <div class="text-sm text-gray-500">
+                    Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span class="font-medium">250</span> attendees
+                </div>
+                <div class="flex space-x-2">
+                    <button class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                        Previous
+                    </button>
+                    <button class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                        Next
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // QR Code Scanner Functionality
+        function onScanSuccess(decodedText, decodedResult) {
+            // Stop the scanner
+            html5QrcodeScanner.clear();
+            
+            // Show loading state
+            document.getElementById('scan-result').classList.remove('hidden');
+            document.getElementById('scan-message').innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Verifying ticket...';
+            document.getElementById('scan-message').className = 'font-medium text-gray-600';
+            document.getElementById('attendee-details').innerHTML = '';
+            
+            // Simulate API call to verify ticket
+            setTimeout(() => {
+                // This would be replaced with actual API call in production
+                const ticketValid = Math.random() > 0.2; // 80% chance of being valid for demo
+                
+                if (ticketValid) {
+                    const isDuplicate = Math.random() > 0.7; // 30% chance of being duplicate for demo
+                    
+                    if (isDuplicate) {
+                        document.getElementById('scan-message').innerHTML = '<i class="fas fa-times-circle text-red-500 mr-2"></i> Duplicate Ticket Detected';
+                        document.getElementById('scan-message').className = 'font-medium text-red-600';
+                        document.getElementById('attendee-details').innerHTML = `
+                            <div class="text-left">
+                                <div><strong>Ticket #:</strong> TK-78109</div>
+                                <div><strong>Name:</strong> David Kambonde</div>
+                                <div><strong>Checked in at:</strong> 15:47 (Today)</div>
+                            </div>
+                        `;
+                        document.getElementById('scan-result').className = 'p-4 rounded-lg mb-4 bg-red-50';
+                        
+                        // Add to table (in a real app, this would come from the API)
+                        addDuplicateToTable('TK-78109', 'David Kambonde', 'VIP Pass', 'david.k@example.com', '+264 81 555 1234');
+                    } else {
+                        document.getElementById('scan-message').innerHTML = '<i class="fas fa-check-circle text-green-500 mr-2"></i> Ticket Verified';
+                        document.getElementById('scan-message').className = 'font-medium text-green-600';
+                        document.getElementById('attendee-details').innerHTML = `
+                            <div class="text-left">
+                                <div><strong>Name:</strong> Sarah Amutenya</div>
+                                <div><strong>Ticket Type:</strong> General Admission</div>
+                                <div><strong>Email:</strong> sarah.a@example.com</div>
+                                <div><strong>Phone:</strong> +264 85 987 6543</div>
+                            </div>
+                        `;
+                        document.getElementById('scan-result').className = 'p-4 rounded-lg mb-4 bg-green-50';
+                        
+                        // Add to table (in a real app, this would come from the API)
+                        addAttendeeToTable('TK-78231', 'Sarah Amutenya', 'General Admission', 'sarah.a@example.com', '+264 85 987 6543');
+                    }
+                } else {
+                    document.getElementById('scan-message').innerHTML = '<i class="fas fa-times-circle text-red-500 mr-2"></i> Invalid Ticket';
+                    document.getElementById('scan-message').className = 'font-medium text-red-600';
+                    document.getElementById('scan-result').className = 'p-4 rounded-lg mb-4 bg-red-50';
+                }
+                
+                // Restart scanner after 3 seconds
+                setTimeout(() => {
+                    document.getElementById('scan-result').classList.add('hidden');
+                    html5QrcodeScanner.render(onScanSuccess);
+                }, 3000);
+            }, 1000);
+        }
+
+        function onScanFailure(error) {
+            // Handle scan failure
+            console.warn(`QR error = ${error}`);
+        }
+
+        let html5QrcodeScanner;
+        document.addEventListener('DOMContentLoaded', () => {
+            html5QrcodeScanner = new Html5QrcodeScanner(
+                "reader",
+                { fps: 10, qrbox: {width: 250, height: 250} },
+                /* verbose= */ false);
+            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+            
+            // Manual entry modal
+            const manualEntryBtn = document.getElementById('manual-entry-btn');
+            const manualEntryModal = document.getElementById('manual-entry-modal');
+            const closeManualModal = document.getElementById('close-manual-modal');
+            const cancelManualEntry = document.getElementById('cancel-manual-entry');
+            
+            manualEntryBtn.addEventListener('click', () => {
+                manualEntryModal.classList.remove('hidden');
+            });
+            
+            closeManualModal.addEventListener('click', () => {
+                manualEntryModal.classList.add('hidden');
+            });
+            
+            cancelManualEntry.addEventListener('click', () => {
+                manualEntryModal.classList.add('hidden');
+            });
+            
+            // Verify ticket button
+            document.getElementById('verify-ticket').addEventListener('click', () => {
+                const ticketCode = document.getElementById('ticket-code').value;
+                if (ticketCode) {
+                    // Simulate API verification
+                    manualEntryModal.classList.add('hidden');
+                    
+                    document.getElementById('scan-result').classList.remove('hidden');
+                    document.getElementById('scan-message').innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Verifying ticket...';
+                    document.getElementById('scan-message').className = 'font-medium text-gray-600';
+                    document.getElementById('attendee-details').innerHTML = '';
+                    
+                    setTimeout(() => {
+                        document.getElementById('scan-message').innerHTML = '<i class="fas fa-check-circle text-green-500 mr-2"></i> Ticket Verified';
+                        document.getElementById('scan-message').className = 'font-medium text-green-600';
+                        document.getElementById('attendee-details').innerHTML = `
+                            <div class="text-left">
+                                <div><strong>Name:</strong> John Mbeki</div>
+                                <div><strong>Ticket Type:</strong> VIP Pass</div>
+                                <div><strong>Email:</strong> john.mbeki@example.com</div>
+                                <div><strong>Phone:</strong> +264 81 123 4567</div>
+                            </div>
+                        `;
+                        document.getElementById('scan-result').className = 'p-4 rounded-lg mb-4 bg-green-50';
+                        
+                        // Add to table (in a real app, this would come from the API)
+                        addAttendeeToTable('TK-78945', 'John Mbeki', 'VIP Pass', 'john.mbeki@example.com', '+264 81 123 4567');
+                        
+                        setTimeout(() => {
+                            document.getElementById('scan-result').classList.add('hidden');
+                        }, 3000);
+                    }, 1000);
+                }
+            });
+        });
+
+        // Helper functions to update the attendee table
+        function addAttendeeToTable(ticketNumber, name, ticketType, email, phone) {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            const dateString = now.toLocaleDateString();
+            
+            const tableBody = document.getElementById('attendee-table-body');
+            const newRow = document.createElement('tr');
+            newRow.className = 'checked-in';
+            newRow.innerHTML = `
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-red-100 flex items-center justify-center">
+                            <span class="text-red-600 font-medium">${name.split(' ').map(n => n[0]).join('')}</span>
+                        </div>
+                        <div class="ml-4">
+                            <div class="text-sm font-medium text-gray-900">${name}</div>
+                            <div class="text-sm text-gray-500">#${ticketNumber}</div>
+                        </div>
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${ticketType}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <div>${email}</div>
+                    <div>${phone}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <div>${dateString}</div>
+                    <div>${timeString}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">
+                        <i class="fas fa-check-circle mr-1"></i> Checked In
+                    </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <button class="text-red-600 hover:text-red-900 mr-3">
+                        <i class="fas fa-undo"></i>
+                    </button>
+                    <button class="text-gray-600 hover:text-gray-900">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                </td>
+            `;
+            tableBody.prepend(newRow);
+        }
+
+        function addDuplicateToTable(ticketNumber, name, ticketType, email, phone) {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            const dateString = now.toLocaleDateString();
+            
+            const tableBody = document.getElementById('attendee-table-body');
+            const newRow = document.createElement('tr');
+            newRow.className = 'duplicate-attempt';
+            newRow.innerHTML = `
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center">
+                            <span class="text-purple-600 font-medium">${name.split(' ').map(n => n[0]).join('')}</span>
+                        </div>
+                        <div class="ml-4">
+                            <div class="text-sm font-medium text-gray-900">${name}</div>
+                            <div class="text-sm text-gray-500">#${ticketNumber}</div>
+                        </div>
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${ticketType}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <div>${email}</div>
+                    <div>${phone}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <div>${dateString}</div>
+                    <div>${timeString} (Duplicate)</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">
+                        <i class="fas fa-times-circle mr-1"></i> Duplicate
+                    </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <button class="text-gray-600 hover:text-gray-900">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                </td>
+            `;
+            tableBody.prepend(newRow);
+        }
+    </script>
+</body>
+{% endblock content %}

@@ -1,0 +1,122 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+<section class="bg-gray-50 py-16">
+    <div class="container mx-auto px-4 max-w-6xl">
+        <div class="text-center mb-16">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Contact NamTix</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                We're here to help you with all your ticketing needs
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-12 mb-16">
+            <!-- Contact Info -->
+            <div class="bg-white rounded-xl shadow-md p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Get in Touch</h2>
+                
+                <div class="space-y-6">
+                    <div class="flex items-start">
+                        <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                            <i class="fas fa-map-marker-alt text-red-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Our Office</h3>
+                            <p class="text-gray-600">Roentgen Street<br>Windhoek, Namibia</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                            <i class="fas fa-phone-alt text-blue-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Call Us</h3>
+                            <p class="text-gray-600">
+                                <a href="tel:+264612345678" class="hover:text-red-600 transition">+264 61 234 5678</a><br>
+                                Mon-Fri: 8:00 AM - 5:00 PM
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                            <i class="fas fa-envelope text-green-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Email Us</h3>
+                            <p class="text-gray-600">
+                                <a href="mailto:info@namtix.com" class="hover:text-red-600 transition">info@namtix.com</a><br>
+                                Response time: within 24 hours
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                            <i class="fab fa-whatsapp text-purple-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">WhatsApp</h3>
+                            <p class="text-gray-600">
+                                <a href="https://wa.me/264812345678" class="hover:text-red-600 transition">+264 81 234 5678</a><br>
+                                Quick responses during business hours
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8 pt-8 border-t border-gray-200">
+                    <h3 class="font-semibold text-gray-800 mb-4">Social Media</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-100 hover:bg-red-100 rounded-full flex items-center justify-center transition">
+                            <i class="fab fa-facebook-f text-gray-600 hover:text-red-600"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-100 hover:bg-red-100 rounded-full flex items-center justify-center transition">
+                            <i class="fab fa-twitter text-gray-600 hover:text-red-600"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-100 hover:bg-red-100 rounded-full flex items-center justify-center transition">
+                            <i class="fab fa-instagram text-gray-600 hover:text-red-600"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-100 hover:bg-red-100 rounded-full flex items-center justify-center transition">
+                            <i class="fab fa-linkedin-in text-gray-600 hover:text-red-600"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Map -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3740.222629830968!2d17.08044627612854!3d-22.57071757841143!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1c0b1b8b1b9b9b9b%3A0x1c0b1b8b1b9b9b9b!2sRoentgen%20St%2C%20Windhoek%2C%20Namibia!5e0!3m2!1sen!2sus!4v1623345600000!5m2!1sen!2sus" 
+                    width="100%" 
+                    height="100%" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy"
+                    class="min-h-[400px]"
+                ></iframe>
+            </div>
+        </div>
+        
+        <!-- Business Hours -->
+        <div class="bg-white rounded-xl shadow-md p-8 max-w-3xl mx-auto">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Business Hours</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="text-center">
+                    <h3 class="font-semibold text-gray-800 mb-2">Customer Support</h3>
+                    <p class="text-gray-600">Monday - Friday<br>8:00 AM - 5:00 PM</p>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-semibold text-gray-800 mb-2">Weekend Support</h3>
+                    <p class="text-gray-600">Saturday<br>9:00 AM - 1:00 PM</p>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-semibold text-gray-800 mb-2">Public Holidays</h3>
+                    <p class="text-gray-600">Limited support<br>Via WhatsApp only</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

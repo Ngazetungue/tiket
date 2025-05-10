@@ -1,0 +1,140 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+<section class="bg-gray-50 py-16">
+    <div class="container mx-auto px-4 max-w-6xl">
+        <!-- Header -->
+        <div class="text-center mb-16">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">NamTix Community</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Connect with fellow event-goers and organizers across Namibia
+            </p>
+        </div>
+
+        <!-- Community Features -->
+        <div class="grid md:grid-cols-2 gap-12 mb-16">
+            <!-- Discussion Forum -->
+            <div class="bg-white rounded-xl shadow-md p-8">
+                <div class="flex items-center mb-6">
+                    <div class="w-14 h-14 bg-red-100 rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-comments text-red-600 text-2xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Discussion Forum</h2>
+                </div>
+                <p class="text-gray-600 mb-6">
+                    Join conversations about upcoming events, share experiences, and get recommendations from the Namibian event community.
+                </p>
+                <div class="space-y-4 mb-6">
+                    <div class="border-b border-gray-100 pb-4">
+                        <h3 class="font-semibold text-gray-800 mb-1">Popular Topics</h3>
+                        <ul class="text-gray-600 space-y-2">
+                            <li><a href="#" class="hover:text-red-600 hover:underline">Windhoek Nightlife Updates</a></li>
+                            <li><a href="#" class="hover:text-red-600 hover:underline">Family-Friendly Events</a></li>
+                            <li><a href="#" class="hover:text-red-600 hover:underline">Festival Survival Tips</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-1">Recent Activity</h3>
+                        <ul class="text-gray-600 space-y-2">
+                            <li><a href="#" class="hover:text-red-600 hover:underline">New jazz festival announced</a></li>
+                            <li><a href="#" class="hover:text-red-600 hover:underline">Best seats at National Theatre?</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <a href="#" class="inline-block bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-6 rounded-lg transition">
+                    Join Discussions
+                </a>
+            </div>
+
+            <!-- Event Groups -->
+            <div class="bg-white rounded-xl shadow-md p-8">
+                <div class="flex items-center mb-6">
+                    <div class="w-14 h-14 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                        <i class="fas fa-users text-blue-600 text-2xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Event Groups</h2>
+                </div>
+                <p class="text-gray-600 mb-6">
+                    Find or create groups for specific events, interests, or locations to connect with like-minded attendees.
+                </p>
+                <div class="grid sm:grid-cols-2 gap-4 mb-6">
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <h3 class="font-semibold text-gray-800 mb-2">Windhoek Music Lovers</h3>
+                        <p class="text-sm text-gray-600">1,245 members</p>
+                    </div>
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <h3 class="font-semibold text-gray-800 mb-2">Swakopmund Arts</h3>
+                        <p class="text-sm text-gray-600">872 members</p>
+                    </div>
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <h3 class="font-semibold text-gray-800 mb-2">Student Events Namibia</h3>
+                        <p class="text-sm text-gray-600">2,156 members</p>
+                    </div>
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <h3 class="font-semibold text-gray-800 mb-2">Over-40s Social Club</h3>
+                        <p class="text-sm text-gray-600">543 members</p>
+                    </div>
+                </div>
+                <a href="#" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition">
+                    Browse Groups
+                </a>
+            </div>
+        </div>
+
+        <!-- Community Guidelines -->
+        <div class="bg-white rounded-xl shadow-md p-8 max-w-4xl mx-auto mb-16">
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Community Guidelines</h2>
+            <div class="prose max-w-3xl mx-auto text-gray-600">
+                <p>Our community is built on mutual respect and shared love for Namibian events. Please:</p>
+                <ul>
+                    <li>Be kind and respectful to all members</li>
+                    <li>Keep discussions relevant to events in Namibia</li>
+                    <li>No spam or promotional content without approval</li>
+                    <li>Respect different opinions and tastes</li>
+                    <li>Report any inappropriate behavior to moderators</li>
+                </ul>
+                <p>Violations may result in removal from the community.</p>
+            </div>
+        </div>
+
+        <!-- Featured Community Members -->
+        <div class="text-center mb-16">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Featured Community Members</h2>
+            <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <div class="w-20 h-20 rounded-full bg-gray-200 mx-auto mb-4 overflow-hidden">
+                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Member" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="font-semibold">Elize N.</h3>
+                    <p class="text-sm text-gray-600">Windhoek</p>
+                    <p class="text-sm text-gray-500 mt-2">"Found my concert buddies here!"</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <div class="w-20 h-20 rounded-full bg-gray-200 mx-auto mb-4 overflow-hidden">
+                        <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Member" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="font-semibold">David K.</h3>
+                    <p class="text-sm text-gray-600">Swakopmund</p>
+                    <p class="text-sm text-gray-500 mt-2">"Great for local event updates"</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <div class="w-20 h-20 rounded-full bg-gray-200 mx-auto mb-4 overflow-hidden">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Member" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="font-semibold">Anna M.</h3>
+                    <p class="text-sm text-gray-600">Rundu</p>
+                    <p class="text-sm text-gray-500 mt-2">"Love the festival tips"</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <div class="w-20 h-20 rounded-full bg-gray-200 mx-auto mb-4 overflow-hidden">
+                        <img src="https://randomuser.me/api/portraits/men/76.jpg" alt="Member" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="font-semibold">Paul T.</h3>
+                    <p class="text-sm text-gray-600">Oshakati</p>
+                    <p class="text-sm text-gray-500 mt-2">"Best way to find cultural events"</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

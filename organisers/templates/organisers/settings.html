@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ticket System Settings</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-white shadow-md py-4 px-6 mb-8">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold"><i class="fas fa-cogs text-red-600 mr-2"></i> Ticket System Settings</h1>
+      <a href="/" class="text-sm text-red-600 hover:underline"><i class="fas fa-home mr-1"></i>Back to Dashboard</a>
+    </div>
+  </header>
+
+  <!-- Settings Container -->
+  <main class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md">
+
+    <form class="space-y-8">
+
+      <!-- Ticket Capacity -->
+      <div>
+        <label class="block text-sm font-medium mb-2">Maximum Tickets per Event</label>
+        <input type="number" placeholder="e.g., 100" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500">
+      </div>
+
+      <!-- Default Price -->
+      <div>
+        <label class="block text-sm font-medium mb-2">Default Ticket Price (NAD)</label>
+        <input type="number" placeholder="e.g., 120" class="w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500">
+      </div>
+
+      <!-- Payment Methods -->
+      <div>
+        <label class="block text-sm font-medium mb-2">Accepted Payment Methods</label>
+        <div class="flex flex-wrap gap-4">
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" class="form-checkbox text-red-600"> <span>Card</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" class="form-checkbox text-red-600"> <span>PayToday</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" class="form-checkbox text-red-600"> <span>Bank Transfer (EFT)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- QR Code Scanning -->
+      <div>
+        <label class="block text-sm font-medium mb-2">Enable QR Code Scanning</label>
+        <select class="w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500">
+          <option>Yes - Scan at event entry</option>
+          <option>No - Use manual check-in</option>
+        </select>
+      </div>
+
+      <!-- Notifications -->
+      <div>
+        <label class="block text-sm font-medium mb-2">Notification Method on Ticket Sale</label>
+        <select class="w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500">
+          <option>Email</option>
+          <option>SMS</option>
+          <option>Both</option>
+          <option>None</option>
+        </select>
+      </div>
+
+      <!-- Currency -->
+      <div>
+        <label class="block text-sm font-medium mb-2">Default Currency</label>
+        <select class="w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500">
+          <option>NAD (Namibia Dollar)</option>
+          <option>USD (US Dollar)</option>
+          <option>ZAR (South African Rand)</option>
+        </select>
+      </div>
+
+      <!-- Save Button -->
+      <div class="text-right">
+        <button type="submit" class="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition">
+          <i class="fas fa-save mr-2"></i> Save Settings
+        </button>
+      </div>
+    </form>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-10 text-center text-sm text-gray-500">
+    © 2025 Your Ticket Platform. All rights reserved.
+  </footer>
+
+</body>
+</html>

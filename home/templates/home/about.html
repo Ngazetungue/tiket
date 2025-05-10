@@ -1,0 +1,176 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+<section class="bg-gradient-to-b from-gray-50 to-white py-16">
+    <div class="container mx-auto px-4 max-w-6xl">
+        <div class="text-center mb-16">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">About NamTix</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Namibia's premier ticketing platform for seamless event experiences
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-12 mb-16">
+            <!-- Our Story -->
+            <div class="bg-white rounded-xl shadow-md p-8 hover:shadow-lg transition-shadow">
+                <div class="w-14 h-14 bg-red-100 rounded-lg flex items-center justify-center mb-6">
+                    <i class="fas fa-history text-red-600 text-2xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Our Story</h2>
+                <p class="text-gray-600 mb-4">
+                    Founded in 2023, NamTix was born out of a passion for connecting people with unforgettable experiences. 
+                    We recognized the need for a reliable, Namibia-focused ticketing platform that caters specifically 
+                    to our unique cultural events and entertainment landscape.
+                </p>
+                <p class="text-gray-600">
+                    What started as a small Windhoek-based startup has now grown into the nation's most trusted 
+                    ticketing solution, serving event organizers and attendees across all 14 regions.
+                </p>
+            </div>
+
+            <!-- Our Mission -->
+            <div class="bg-white rounded-xl shadow-md p-8 hover:shadow-lg transition-shadow">
+                <div class="w-14 h-14 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
+                    <i class="fas fa-bullseye text-blue-600 text-2xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Our Mission</h2>
+                <p class="text-gray-600 mb-4">
+                    To revolutionize event access in Namibia by providing a seamless, secure, and user-friendly 
+                    ticketing platform that empowers organizers and delights attendees.
+                </p>
+                <p class="text-gray-600">
+                    We're committed to fostering Namibia's vibrant entertainment industry while making event 
+                    discovery and attendance effortless for everyone.
+                </p>
+            </div>
+        </div>
+
+        <!-- Key Features -->
+        <div class="mb-16">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Why Choose NamTix?</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shield-alt text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Secure Payments</h3>
+                    <p class="text-gray-600">
+                        Bank-level encryption and multiple payment options including MTC Money, Telecom Pay, and all major cards.
+                    </p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-mobile-alt text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Mobile-Friendly</h3>
+                    <p class="text-gray-600">
+                        QR code tickets delivered straight to your phone - no printing needed. Works even offline at venues.
+                    </p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-headset text-yellow-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Local Support</h3>
+                    <p class="text-gray-600">
+                        Namibia-based customer service team available via WhatsApp, phone, and email in English and local languages.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Section -->
+        <div class="mb-16">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Meet Our Team</h2>
+            <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-32 h-32 rounded-full bg-gray-200 mx-auto mb-4 overflow-hidden">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Team member" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-semibold">Ndeshi Hamutenya</h3>
+                    <p class="text-red-600 font-medium">CEO & Founder</p>
+                    <p class="text-gray-600 text-sm mt-2">Windhoek native with 10+ years in event management</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-32 h-32 rounded-full bg-gray-200 mx-auto mb-4 overflow-hidden">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Team member" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-semibold">Johannes Kambala</h3>
+                    <p class="text-red-600 font-medium">CTO</p>
+                    <p class="text-gray-600 text-sm mt-2">Tech innovator specializing in payment systems</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-32 h-32 rounded-full bg-gray-200 mx-auto mb-4 overflow-hidden">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Team member" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-semibold">Elize Shikongo</h3>
+                    <p class="text-red-600 font-medium">Customer Success</p>
+                    <p class="text-gray-600 text-sm mt-2">Ensuring every customer has a perfect experience</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-32 h-32 rounded-full bg-gray-200 mx-auto mb-4 overflow-hidden">
+                        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Team member" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-semibold">David Bezuidenhout</h3>
+                    <p class="text-red-600 font-medium">Marketing Director</p>
+                    <p class="text-gray-600 text-sm mt-2">Connecting Namibian events with their audiences</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="bg-gradient-to-r from-red-600 to-red-700 rounded-xl p-8 text-white mb-16">
+            <div class="grid md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="text-4xl font-bold mb-2">250+</div>
+                    <div class="text-red-100">Events Hosted</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold mb-2">50K+</div>
+                    <div class="text-red-100">Tickets Sold</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold mb-2">14</div>
+                    <div class="text-red-100">Namibian Regions</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold mb-2">98%</div>
+                    <div class="text-red-100">Customer Satisfaction</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Partners -->
+        <div class="mb-16">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Our Partners</h2>
+            <div class="flex flex-wrap justify-center gap-8 items-center">
+                <img src="https://via.placeholder.com/150x60?text=MTC" alt="MTC" class="h-12 opacity-70 hover:opacity-100 transition">
+                <img src="https://via.placeholder.com/150x60?text=Telecom" alt="Telecom Namibia" class="h-12 opacity-70 hover:opacity-100 transition">
+                <img src="https://via.placeholder.com/150x60?text=NBC" alt="NBC" class="h-12 opacity-70 hover:opacity-100 transition">
+                <img src="https://via.placeholder.com/150x60?text=NTN" alt="Namibia Tourism Board" class="h-12 opacity-70 hover:opacity-100 transition">
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="bg-gray-900 rounded-xl p-8 text-center text-white">
+            <h2 class="text-2xl font-bold mb-4">Ready to experience events the NamTix way?</h2>
+            <p class="text-gray-300 mb-6 max-w-2xl mx-auto">
+                Whether you're an event organizer or attendee, we've got you covered with Namibia's most reliable ticketing platform.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/events" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition">
+                    Browse Events
+                </a>
+                <a href="/contact" class="bg-transparent hover:bg-gray-800 text-white font-bold py-3 px-6 border border-gray-600 rounded-lg transition">
+                    Contact Us
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

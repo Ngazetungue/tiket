@@ -1,0 +1,231 @@
+{% extends "organisers/base-dash.html" %}
+{% load static %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header with back button and status -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
+            <div class="flex items-center">
+                <a href="{% url 'organisers:event_list' %}" 
+                   class="mr-4 p-2 rounded-full text-gray-500 hover:text-red-600 hover:bg-gray-100 transition-colors duration-200">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-900">{{ event.title }}</h1>
+                    <div class="flex items-center mt-1">
+                        <span class="px-3 py-1 rounded-full text-xs font-medium {{ event.status_badge_class }} shadow-sm">
+                            {{ event.get_status_display }}
+                        </span>
+                        <span class="ml-3 text-sm text-gray-500">
+                            <i class="far fa-calendar-alt mr-1"></i> Created {{ event.created_at|date:"M d, Y" }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex space-x-3">
+                <a href="{% url 'organisers:event_update' event.pk %}" 
+                   class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200">
+                    <i class="fas fa-edit mr-2"></i> Edit Event
+                </a>
+                <a href="{% url 'organisers:event_detail' event.pk %}" 
+                   class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200">
+                    <i class="fas fa-chart-line mr-2"></i> View Analytics
+                </a>
+            </div>
+        </div>
+
+        <!-- Main card -->
+        <div class="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
+            <!-- Event image with gradient overlay -->
+            <div class="relative h-64 bg-gradient-to-r from-gray-900 to-gray-700 overflow-hidden">
+                {% if event.image %}
+                <img src="{{ event.image.url }}" alt="{{ event.title }}" 
+                     class="w-full h-full object-cover opacity-90">
+                {% else %}
+                <div class="w-full h-full flex items-center justify-center text-gray-300">
+                    <i class="fas fa-image fa-4x"></i>
+                </div>
+                {% endif %}
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-6 text-white">
+                    <div class="flex items-center">
+                        <i class="fas fa-map-marker-alt mr-2 text-red-400"></i>
+                        <span class="font-medium">{{ event.venue }}</span>
+                    </div>
+                    <div class="mt-1 flex items-center">
+                        <i class="far fa-clock mr-2 text-red-400"></i>
+                        <span>{{ event.start_date|date:"F j, Y" }} • {{ event.start_date|time }} - {{ event.end_date|time }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event details -->
+            <div class="p-8">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Left column -->
+                    <div class="lg:col-span-2">
+                        <!-- Description -->
+                        <div class="prose max-w-none text-gray-700 mb-8">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-3 border-b pb-2">Event Description</h3>
+                            {{ event.description|linebreaks }}
+                        </div>
+
+                        <!-- Details cards -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Date & Time Card -->
+                            <div class="bg-gray-50 rounded-xl p-5 border border-gray-200">
+                                <div class="flex items-center mb-3">
+                                    <div class="p-2 rounded-lg bg-red-100 text-red-600 mr-3">
+                                        <i class="fas fa-calendar-day"></i>
+                                    </div>
+                                    <h3 class="text-lg font-medium text-gray-900">Date & Time</h3>
+                                </div>
+                                <div class="space-y-2 pl-11">
+                                    <div>
+                                        <p class="text-xs font-medium text-gray-500">DATE</p>
+                                        <p class="text-sm text-gray-900">{{ event.start_date|date:"l, F j, Y" }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-medium text-gray-500">TIME</p>
+                                        <p class="text-sm text-gray-900">{{ event.start_date|time }} - {{ event.end_date|time }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Location Card -->
+                            <div class="bg-gray-50 rounded-xl p-5 border border-gray-200">
+                                <div class="flex items-center mb-3">
+                                    <div class="p-2 rounded-lg bg-blue-100 text-blue-600 mr-3">
+                                        <i class="fas fa-map-marked-alt"></i>
+                                    </div>
+                                    <h3 class="text-lg font-medium text-gray-900">Location</h3>
+                                </div>
+                                <div class="space-y-2 pl-11">
+                                    <div>
+                                        <p class="text-xs font-medium text-gray-500">VENUE</p>
+                                        <p class="text-sm text-gray-900">{{ event.venue }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-medium text-gray-500">ADDRESS</p>
+                                        <p class="text-sm text-gray-900">{{ event.location }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right column -->
+                    <div class="space-y-6">
+                        <!-- Ticket info card -->
+                        <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                            <div class="flex items-center mb-4">
+                                <div class="p-2 rounded-lg bg-green-100 text-green-600 mr-3">
+                                    <i class="fas fa-ticket-alt"></i>
+                                </div>
+                                <h3 class="text-lg font-medium text-gray-900">Ticket Information</h3>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <p class="text-xs font-medium text-gray-500">TICKET TYPE</p>
+                                    <p class="text-sm font-medium text-gray-900">{{ event.ticket_name }}</p>
+                                </div>
+                                
+                                <div>
+                                    <p class="text-xs font-medium text-gray-500">PRICE</p>
+                                    <p class="text-2xl font-bold text-gray-900">${{ event.ticket_price }}</p>
+                                </div>
+                                
+                                <div>
+                                    <p class="text-xs font-medium text-gray-500 mb-2">AVAILABILITY</p>
+                                    <div class="flex items-center">
+                                        <div class="w-full bg-gray-200 rounded-full h-2.5 mr-3">
+                                            <div class="bg-gradient-to-r from-green-400 to-green-600 h-2.5 rounded-full" 
+                                                 style="width: {{ event.sold_percentage }}%"></div>
+                                        </div>
+                                        <span class="text-xs font-bold text-gray-700 whitespace-nowrap">
+                                            {{ event.sold_percentage }}% sold
+                                        </span>
+                                    </div>
+                                    <p class="mt-1 text-xs text-gray-500">
+                                        {{ event.tickets_available }} of {{ event.capacity }} tickets remaining
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sales period card -->
+                        <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                            <div class="flex items-center mb-4">
+                                <div class="p-2 rounded-lg bg-purple-100 text-purple-600 mr-3">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <h3 class="text-lg font-medium text-gray-900">Sales Period</h3>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <p class="text-xs font-medium text-gray-500">SALES START</p>
+                                    <div class="flex items-center mt-1">
+                                        <i class="far fa-calendar text-gray-400 mr-2 text-sm"></i>
+                                        <p class="text-sm text-gray-900">
+                                            {{ event.sales_start|date:"M j, Y" }} at {{ event.sales_start|time }}
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <p class="text-xs font-medium text-gray-500">SALES END</p>
+                                    <div class="flex items-center mt-1">
+                                        <i class="far fa-calendar text-gray-400 mr-2 text-sm"></i>
+                                        <p class="text-sm text-gray-900">
+                                            {{ event.sales_end|date:"M j, Y" }} at {{ event.sales_end|time }}
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <div class="pt-2">
+                                    {% if event.is_sales_active %}
+                                    <span class="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        <i class="fas fa-circle text-[8px] mr-1"></i> Sales Active
+                                    </span>
+                                    {% else %}
+                                    <span class="px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                        <i class="fas fa-circle text-[8px] mr-1"></i> Sales Ended
+                                    </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick actions -->
+                        <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h3>
+                            <div class="grid grid-cols-2 gap-3">
+                                <a href="#" class="flex flex-col items-center justify-center p-3 rounded-lg bg-white border border-gray-200 hover:border-red-300 hover:bg-red-50 transition-all duration-200">
+                                    <i class="fas fa-qrcode text-red-600 mb-1"></i>
+                                    <span class="text-xs font-medium">View Tickets</span>
+                                </a>
+                                <a href="#" class="flex flex-col items-center justify-center p-3 rounded-lg bg-white border border-gray-200 hover:border-red-300 hover:bg-red-50 transition-all duration-200">
+                                    <i class="fas fa-users text-red-600 mb-1"></i>
+                                    <span class="text-xs font-medium">Attendees</span>
+                                </a>
+                                <a href="#" class="flex flex-col items-center justify-center p-3 rounded-lg bg-white border border-gray-200 hover:border-red-300 hover:bg-red-50 transition-all duration-200">
+                                    <i class="fas fa-share-alt text-red-600 mb-1"></i>
+                                    <span class="text-xs font-medium">Share</span>
+                                </a>
+                                <a href="#" class="flex flex-col items-center justify-center p-3 rounded-lg bg-white border border-gray-200 hover:border-red-300 hover:bg-red-50 transition-all duration-200">
+                                    <i class="fas fa-file-export text-red-600 mb-1"></i>
+                                    <span class="text-xs font-medium">Export</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

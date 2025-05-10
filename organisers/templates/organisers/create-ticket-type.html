@@ -1,0 +1,121 @@
+{% extends 'organisers/base-dash.html' %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto py-8 px-4">
+    <h1 class="text-3xl font-bold mb-6">Create Ticket for {{ event.title }}</h1>
+    
+    {% if messages %}
+    <div class="mb-6">
+        {% for message in messages %}
+        <div class="p-4 mb-4 text-sm rounded-lg {% if message.tags == 'error' %}bg-red-50 text-red-600{% else %}bg-green-50 text-green-600{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="POST" class="space-y-6">
+        {% csrf_token %}
+        
+        {% if form.non_field_errors %}
+        <div class="p-4 mb-4 bg-red-50 text-red-600 rounded-lg">
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="grid md:grid-cols-2 gap-6">
+            <!-- Basic Info -->
+            <div class="space-y-4">
+                <div>
+                    <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Ticket Name*</label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                        <div class="mt-1 text-sm text-red-600">{{ form.name.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                        <div class="mt-1 text-sm text-red-600">{{ form.description.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Pricing and Quantity -->
+            <div class="space-y-4">
+                <div>
+                    <label for="{{ form.price.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Price (NAD)*</label>
+                    {{ form.price }}
+                    {% if form.price.errors %}
+                        <div class="mt-1 text-sm text-red-600">{{ form.price.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label for="{{ form.quantity.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Quantity*</label>
+                    {{ form.quantity }}
+                    {% if form.quantity.errors %}
+                        <div class="mt-1 text-sm text-red-600">{{ form.quantity.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Limits -->
+        <div class="grid md:grid-cols-2 gap-6">
+            <div>
+                <label for="{{ form.min_per_order.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Minimum per Order</label>
+                {{ form.min_per_order }}
+                {% if form.min_per_order.errors %}
+                    <div class="mt-1 text-sm text-red-600">{{ form.min_per_order.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.max_per_order.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Maximum per Order</label>
+                {{ form.max_per_order }}
+                {% if form.max_per_order.errors %}
+                    <div class="mt-1 text-sm text-red-600">{{ form.max_per_order.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Sales Period -->
+        <div class="grid md:grid-cols-2 gap-6">
+            <div>
+                <label for="{{ form.sales_start.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Sales Start</label>
+                {{ form.sales_start }}
+                {% if form.sales_start.errors %}
+                    <div class="mt-1 text-sm text-red-600">{{ form.sales_start.errors }}</div>
+                {% endif %}
+                <p class="mt-1 text-sm text-gray-500">Leave blank to start sales immediately</p>
+            </div>
+
+            <div>
+                <label for="{{ form.sales_end.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Sales End*</label>
+                {{ form.sales_end }}
+                {% if form.sales_end.errors %}
+                    <div class="mt-1 text-sm text-red-600">{{ form.sales_end.errors }}</div>
+                {% endif %}
+                <p class="mt-1 text-sm text-gray-500">Must be before event end: {{ event.end_date|date:"M j, Y g:i A" }}</p>
+            </div>
+        </div>
+
+        <div class="flex justify-between pt-6">
+            <a href="{% url 'event-detail' pk=event.id %}" 
+               class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                Cancel
+            </a>
+            <button type="submit" 
+                    class="px-6 py-3 bg-red-600 text-white rounded-md hover:bg-red-700">
+                Create Ticket
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

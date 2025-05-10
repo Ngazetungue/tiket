@@ -1,0 +1,126 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block content %}
+<body class="bg-gray-50">
+<!-- Main Container -->
+<div class="min-h-screen">
+    <!-- Checkout Section (Visible by default) -->
+    <div id="checkout-section">
+        <!-- Ticket Checkout Header -->
+        <header class="bg-gradient-to-r from-red-600 to-red-700 text-white py-12 shadow-md">
+            <div class="container mx-auto px-4 text-center">
+                <h1 class="text-4xl font-extrabold tracking-tight mb-4">🎟️ Secure Your Ticket</h1>
+                <p class="text-lg opacity-90">Complete your booking for this amazing event</p>
+            </div>
+        </header>
+
+        <!-- Main Checkout Content -->
+        <main class="container mx-auto px-4 py-8 max-w-6xl">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Left Column - Event & Ticket Info -->
+                <div class="lg:w-2/5">
+                    <!-- Event Details Card -->
+                    <div class="bg-white rounded-xl shadow-sm p-6 mb-6 border border-gray-200">
+                        <h2 class="text-xl font-bold mb-4 flex items-center">
+                            <i class="fas fa-info-circle text-red-500 mr-2"></i> Event Details
+                        </h2>
+                        
+                        <div class="mb-4">
+                            <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+                                alt="Event" class="w-full h-48 object-cover rounded-lg mb-4">
+                            
+                            <h3 class="text-lg font-bold mb-2">{{ event.title }}</h3>
+                            <p class="text-gray-700 mb-4">
+                                {{ event.description }}
+                            </p>
+                            
+                            <div class="space-y-3">
+                                <div class="flex items-start">
+                                    <i class="fas fa-calendar-day text-red-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <p class="font-medium">Date & Time</p>
+                                        <p class="text-sm text-gray-600">{{ event.start_date }}</p>
+                                        <p class="text-xs text-gray-500">Doors open at 17:30</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <i class="fas fa-map-marker-alt text-red-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <p class="font-medium">Venue</p>
+                                        <p class="text-sm text-gray-600">{{ event.venue }}, {{ event.location }}</p>
+                                        <a href="#" class="text-xs text-red-600 hover:underline">View on map</a>
+                                    </div>
+                                </div>
+         
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Checkout Form -->
+                <div class="lg:w-3/5">
+                    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200 sticky top-4">
+                        <h2 class="text-xl font-bold mb-6">Complete Your Purchase</h2>
+
+                        <button id="checkout-button"
+                            class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-6 rounded-lg shadow-lg transition duration-200">
+                            Buy Ticket
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    var stripe = Stripe('{{ STRIPE_PUBLIC_KEY }}');
+    var checkoutButton = document.getElementById('checkout-button');
+    
+    checkoutButton.addEventListener('click', function() {
+        fetch('/create-checkout-session/{{ event.id }}/', {
+            method: 'GET',
+        })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(session) {
+            return stripe.redirectToCheckout({ sessionId: session.id });
+        })
+        .then(function(result) {
+            if (result.error) {
+                alert(result.error.message);
+            }
+        })
+        .catch(function(error) {
+            console.error('Error:', error);
+        });
+    });
+</script>
+{% comment %} <script>
+    // Payment method selection
+    function selectPayment(method) {
+        // Update UI
+        document.querySelectorAll('.payment-method').forEach(el => {
+            el.classList.remove('selected');
+        });
+        event.currentTarget.classList.add('selected');
+
+        // Show relevant form
+        document.querySelectorAll('[id$="-payment"]').forEach(el => {
+            el.classList.add('hidden');
+        });
+        document.getElementById(`${method}-payment`).classList.remove('hidden');
+    }
+
+    // Complete purchase button
+    document.getElementById('complete-purchase').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('success-modal').classList.remove('hidden');
+    });
+</script> {% endcomment %}
+</body>
+{% endblock content %}

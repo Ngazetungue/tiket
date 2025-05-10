@@ -1,0 +1,235 @@
+{% extends "organisers/base-dash.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">Update Event</h1>
+                <p class="mt-1 text-sm text-gray-500">Make changes to your event details</p>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <div class="bg-white shadow-lg rounded-xl overflow-hidden">
+            <form method="post" enctype="multipart/form-data" class="p-6">
+                {% csrf_token %}
+                
+                {% if form.non_field_errors %}
+                <div class="mb-6 p-4 rounded-lg bg-red-50 border-l-4 border-red-500">
+                    <div class="flex items-start">
+                        <svg class="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                        </svg>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-red-800">There were errors with your submission</h3>
+                            <div class="mt-2 text-sm text-red-700">
+                                {{ form.non_field_errors }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                    <!-- Left column -->
+                    <div class="space-y-4">
+                        <!-- Image upload with preview -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Event Image</label>
+                            
+                            <!-- Image preview container -->
+                            <div id="image-preview" class="mb-3 rounded-lg overflow-hidden border border-gray-200 bg-gray-100" style="height: 200px;">
+                                {% if form.instance.image %}
+                                    <img src="{{ form.instance.image.url }}" alt="Current event image" class="w-full h-full object-cover" id="preview-image">
+                                {% else %}
+                                    <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                        <i class="fas fa-image fa-3x"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- File input -->
+                            <div class="flex items-center">
+                                <label class="relative cursor-pointer">
+                                    <span class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                        <i class="fas fa-upload mr-2"></i> Choose file
+                                    </span>
+                                    {{ form.image }}
+                                </label>
+                                <span id="file-name" class="ml-4 text-sm text-gray-500">
+                                    {% if form.instance.image %}
+                                        {{ form.instance.image.name }}
+                                    {% else %}
+                                        No file chosen
+                                    {% endif %}
+                                </span>
+                            </div>
+                            {% if form.image.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.image.errors }}</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Basic info fields -->
+                        {% for field in form %}
+                            {% if field.name in 'title organizer category location venue' %}
+                            <div>
+                                <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                    {{ field.label }}
+                                    {% if field.field.required %}<span class="text-red-500">*</span>{% endif %}
+                                </label>
+                                {{ field|add_class:"block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm py-2 px-3 border" }}
+                                {% if field.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ field.errors }}</p>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    <!-- Right column -->
+                    <div class="space-y-4">
+                        <!-- Date/time fields -->
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <div>
+                                <label for="{{ form.start_date.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Start Date & Time <span class="text-red-500">*</span>
+                                </label>
+                                {{ form.start_date|add_class:"block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm py-2 px-3 border" }}
+                                {% if form.start_date.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.start_date.errors }}</p>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <label for="{{ form.end_date.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                    End Date & Time <span class="text-red-500">*</span>
+                                </label>
+                                {{ form.end_date|add_class:"block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm py-2 px-3 border" }}
+                                {% if form.end_date.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.end_date.errors }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div>
+                            <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                Description <span class="text-red-500">*</span>
+                            </label>
+                            {{ form.description|add_class:"block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm py-2 px-3 border min-h-[120px]" }}
+                            {% if form.description.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.description.errors }}</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Ticket info -->
+                        <div class="border-t border-gray-200 pt-4">
+                            <h3 class="text-sm font-medium text-gray-900 mb-3">Ticket Information</h3>
+                            <div class="space-y-4">
+                                {% for field in form %}
+                                    {% if field.name in 'ticket_name ticket_description ticket_price ticket_quantity service_fee_percentage sales_start sales_end' %}
+                                    <div>
+                                        <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                            {{ field.label }}
+                                            {% if field.field.required %}<span class="text-red-500">*</span>{% endif %}
+                                        </label>
+                                        {% if field.name == 'ticket_price' %}
+                                        <div class="relative rounded-md shadow-sm">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <span class="text-gray-500 sm:text-sm">$</span>
+                                            </div>
+                                            {{ field|add_class:"block w-full pl-7 pr-12 rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm py-2 px-3 border" }}
+                                        </div>
+                                        {% elif field.name == 'service_fee_percentage' %}
+                                        <div class="relative rounded-md shadow-sm">
+                                            {{ field|add_class:"block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm py-2 px-3 border" }}
+                                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                                <span class="text-gray-500 sm:text-sm">%</span>
+                                            </div>
+                                        </div>
+                                        {% else %}
+                                        {{ field|add_class:"block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm py-2 px-3 border" }}
+                                        {% endif %}
+                                        {% if field.errors %}
+                                        <p class="mt-1 text-sm text-red-600">{{ field.errors }}</p>
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form actions -->
+                <div class="flex justify-end pt-8 mt-6 border-t border-gray-200">
+                    <button type="submit" 
+                            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        <i class="fas fa-save mr-2"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Image preview functionality
+    document.getElementById('{{ form.image.id_for_label }}').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        const previewContainer = document.getElementById('image-preview');
+        const fileNameDisplay = document.getElementById('file-name');
+        
+        if (file) {
+            fileNameDisplay.textContent = file.name;
+            
+            // Create preview if image
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    let img = document.getElementById('preview-image');
+                    if (!img) {
+                        img = document.createElement('img');
+                        img.id = 'preview-image';
+                        img.className = 'w-full h-full object-cover';
+                        previewContainer.innerHTML = '';
+                        previewContainer.appendChild(img);
+                    }
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewContainer.innerHTML = `
+                    <div class="w-full h-full flex flex-col items-center justify-center text-gray-400 p-4">
+                        <i class="fas fa-file fa-3x mb-2"></i>
+                        <span class="text-sm text-center">Selected file is not an image</span>
+                    </div>
+                `;
+            }
+        } else {
+            fileNameDisplay.textContent = 'No file chosen';
+            {% if form.instance.image %}
+                // Restore original image if exists
+                previewContainer.innerHTML = `
+                    <img src="{{ form.instance.image.url }}" alt="Current event image" class="w-full h-full object-cover" id="preview-image">
+                `;
+            {% else %}
+                previewContainer.innerHTML = `
+                    <div class="w-full h-full flex items-center justify-center text-gray-400">
+                        <i class="fas fa-image fa-3x"></i>
+                    </div>
+                `;
+            {% endif %}
+        }
+    });
+
+    // Initialize date/time pickers
+    flatpickr('.datetimepicker', {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+        time_24hr: true
+    });
+</script>
+{% endblock %}

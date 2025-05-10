@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ticketa{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .stats-card:hover {
+            transform: translateY(-3px);
+        }
+        .event-card:hover .event-actions {
+            opacity: 1;
+        }
+        .table-row:hover {
+            background-color: #fef2f2;
+        }
+
+        .sortable:hover {
+            color: #ef4444;
+        }
+
+        .active-sort {
+            color: #ef4444;
+            font-weight: 600;
+        }
+
+        .pagination li {
+            min-width: 2rem;
+        }
+
+        .pagination li.active {
+            background-color: #ef4444;
+            color: white;
+        }
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .payout-status-completed {
+            background-color: #f0fdf4;
+            color: #16a34a;
+        }
+
+        .payout-status-pending {
+            background-color: #fffbeb;
+            color: #d97706;
+        }
+
+        .payment-method-card {
+            border-left: 4px solid #dc2626;
+        }
+        .checked-in {
+            background-color: #f0fdf4;
+            border-left: 4px solid #16a34a;
+        }
+        .not-checked-in {
+            background-color: #fff;
+            border-left: 4px solid #e5e7eb;
+        }
+        .duplicate-attempt {
+            background-color: #fef2f2;
+            border-left: 4px solid #dc2626;
+        }
+        #reader {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        #reader__dashboard_section_csr {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body class="bg-gray-50">
+<!-- Navigation -->
+<nav class="bg-white shadow-sm py-4">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+        <a href="/" class="text-2xl font-bold text-red-600">
+            <i class="fas fa-ticket-alt mr-1"></i> ticketa.
+        </a>
+        <div class="flex items-center space-x-4">
+            <a href="{% url 'organisers:event_create' %}" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm">
+                <i class="fas fa-plus mr-1"></i> New Event
+            </a>
+            <div class="relative">
+                <button id="user-menu" class="flex items-center text-gray-700 hover:text-red-600">
+                    {% if request.user.profile.profile_picture %}
+                        <img src="{{ request.user.profile.profile_picture.url }}" alt="User"
+                             class="w-8 h-8 rounded-full mr-1">
+                    {% else %}
+                        <img src="{% static 'organisers/default-profile.png' %}" alt="Default"
+                             class="w-8 h-8 rounded-full mr-1">
+                    {% endif %}
+                    <span class="hidden md:inline">{{ request.user.username }}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex flex-col md:flex-row gap-6">
+            <!-- Sidebar -->
+            <div class="md:w-1/4">
+                <div class="bg-white rounded-xl shadow-sm p-6 sticky top-4">
+                    <h3 class="font-bold text-lg mb-4">Organizer Menu</h3>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="{% url "organisers:dashboard" %}"
+                                class="flex items-center text-red-600 font-medium p-2 rounded-lg bg-red-50">
+                                <i class="fas fa-chart-line mr-3"></i> Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'organisers:event_list' %}"
+                                class="flex items-center text-gray-700 hover:text-red-600 p-2 rounded-lg hover:bg-red-50">
+                                <i class="fas fa-calendar-alt mr-3"></i> My Events
+                            </a>
+                        </li>
+                        <li>
+                            <a href=""
+                                class="flex items-center text-gray-700 hover:text-red-600 p-2 rounded-lg hover:bg-red-50">
+                                <i class="fas fa-ticket-alt mr-3"></i> Tickets
+                            </a>
+                        </li>
+                        <li>
+                            <a href=""
+                                class="flex items-center text-gray-700 hover:text-red-600 p-2 rounded-lg hover:bg-red-50">
+                                <i class="fas fa-money-bill-wave mr-3"></i> Payouts
+                            </a>
+                        </li>
+                        <li>
+                            <a href=""
+                                class="flex items-center text-gray-700 hover:text-red-600 p-2 rounded-lg hover:bg-red-50">
+                                <i class="fas fa-users mr-3"></i> Attendees
+                            </a>
+                        </li>
+                        {% comment %} <li>
+                            <a href="/settings"
+                                class="flex items-center text-gray-700 hover:text-red-600 p-2 rounded-lg hover:bg-red-50">
+                                <i class="fas fa-cog mr-3"></i> Settings
+                            </a>
+                        </li> {% endcomment %}
+                        <li>
+                            <a href="{% url "users:logout" %}"
+                                class="flex items-center text-gray-700 hover:text-red-600 p-2 rounded-lg hover:bg-red-50">
+                                <i class="fas fa-sign-out-alt mr-3"></i> Logout
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url "password_change" %}"
+                                class="flex items-center text-gray-700 hover:text-red-600 p-2 rounded-lg hover:bg-red-50">
+                                <i class="fas fa-sign-out-alt mr-3"></i> Change Password
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Content Block -->
+            <div class="md:w-3/4">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

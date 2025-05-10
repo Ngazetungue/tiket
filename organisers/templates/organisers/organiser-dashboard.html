@@ -1,0 +1,489 @@
+{% extends "organisers/base-dash.html" %}
+
+{% block title %}Organizer Dashboard | ticketa{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 px-4 py-8">
+    <div class="max-w-7xl mx-auto space-y-8">
+        <!-- Header Section -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Organizer Dashboard</h1>
+                <p class="text-gray-600 mt-2">Welcome back! Here's your event overview</p>
+            </div>
+            <a href="{% url "organisers:event_create" %}" 
+               class="inline-flex items-center px-5 py-3 border border-transparent text-base font-medium rounded-xl shadow-sm text-white bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200">
+                <i class="fas fa-plus mr-2"></i> Create New Event
+            </a>
+        </div>
+
+        <!-- Quick Navigation -->
+        <div class="mb-8 bg-white rounded-2xl shadow-md p-4">
+            <div class="flex overflow-x-auto space-x-4 pb-2">
+                <a href="#" class="flex flex-col items-center justify-center px-4 py-3 rounded-xl bg-red-50 text-red-600 min-w-[120px]">
+                    <i class="fas fa-calendar-alt text-xl mb-2"></i>
+                    <span class="text-sm font-medium">Events</span>
+                </a>
+                <a href="#" class="flex flex-col items-center justify-center px-4 py-3 rounded-xl bg-gray-50 text-gray-600 hover:bg-red-50 hover:text-red-600 min-w-[120px]">
+                    <i class="fas fa-users text-xl mb-2"></i>
+                    <span class="text-sm font-medium">Attendees</span>
+                </a>
+                <a href="#" class="flex flex-col items-center justify-center px-4 py-3 rounded-xl bg-gray-50 text-gray-600 hover:bg-red-50 hover:text-red-600 min-w-[120px]">
+                    <i class="fas fa-chart-line text-xl mb-2"></i>
+                    <span class="text-sm font-medium">Analytics</span>
+                </a>
+                <a href="#" class="flex flex-col items-center justify-center px-4 py-3 rounded-xl bg-gray-50 text-gray-600 hover:bg-red-50 hover:text-red-600 min-w-[120px]">
+                    <i class="fas fa-wallet text-xl mb-2"></i>
+                    <span class="text-sm font-medium">Payouts</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="stats-card bg-white rounded-2xl shadow-md p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border-l-4 border-red-500">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-lg bg-red-100 text-red-600 mr-4">
+                        <i class="fas fa-calendar-day text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold text-gray-900">3</div>
+                        <div class="text-gray-600 font-medium">Upcoming Events</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-card bg-white rounded-2xl shadow-md p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border-l-4 border-blue-500">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-lg bg-blue-100 text-blue-600 mr-4">
+                        <i class="fas fa-ticket-alt text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold text-gray-900">142</div>
+                        <div class="text-gray-600 font-medium">Tickets Sold</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-card bg-white rounded-2xl shadow-md p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border-l-4 border-green-500">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-lg bg-green-100 text-green-600 mr-4">
+                        <i class="fas fa-wallet text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold text-gray-900">NAD 21,300</div>
+                        <div class="text-gray-600 font-medium">Total Revenue</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white rounded-2xl shadow-md p-6">
+                <h3 class="font-bold mb-4 flex items-center">
+                    <i class="fas fa-chart-pie text-red-500 mr-2"></i>
+                    Ticket Sales Breakdown
+                </h3>
+                <div class="h-64">
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-2xl shadow-md p-6">
+                <h3 class="font-bold mb-4 flex items-center">
+                    <i class="fas fa-chart-line text-red-500 mr-2"></i>
+                    Revenue Trends
+                </h3>
+                <div class="h-64">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event Timeline -->
+        <div class="bg-white rounded-2xl shadow-md p-6 mb-8">
+            <h2 class="text-xl font-bold mb-6 flex items-center">
+                <i class="fas fa-calendar-day text-red-500 mr-3"></i>
+                Event Timeline
+            </h2>
+            <div class="relative">
+                <div class="border-l-2 border-gray-200 ml-4 pl-6 space-y-8">
+                    <div class="relative">
+                        <div class="absolute w-4 h-4 bg-red-500 rounded-full -left-[21px] top-1 border-4 border-white"></div>
+                        <div class="bg-gray-50 rounded-xl p-4 hover:bg-red-50 transition-colors">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-bold">Windhoek Jazz Festival</h3>
+                                    <p class="text-sm text-gray-600">May 15-17, 2024</p>
+                                </div>
+                                <span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">Starts in 3 days</span>
+                            </div>
+                            <div class="mt-2 flex items-center text-sm">
+                                <span class="text-gray-500 mr-4">42 tickets sold</span>
+                                <span class="text-gray-500">NAD 8,540 revenue</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="relative">
+                        <div class="absolute w-4 h-4 bg-blue-500 rounded-full -left-[21px] top-1 border-4 border-white"></div>
+                        <div class="bg-gray-50 rounded-xl p-4 hover:bg-blue-50 transition-colors">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-bold">Namibia Food Festival</h3>
+                                    <p class="text-sm text-gray-600">June 10-11, 2024</p>
+                                </div>
+                                <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">Early bird sales</span>
+                            </div>
+                            <div class="mt-2 flex items-center text-sm">
+                                <span class="text-gray-500 mr-4">18 tickets sold</span>
+                                <span class="text-gray-500">NAD 3,240 revenue</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payout Status -->
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden mb-8">
+            <div class="p-6 border-b border-gray-200">
+                <h2 class="text-xl font-bold flex items-center">
+                    <span class="p-2 rounded-lg bg-purple-100 text-purple-600 mr-3">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </span>
+                    Payout Status
+                </h2>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payout Date</th>
+                            <th scope="col" class="relative px-6 py-3">
+                                <span class="sr-only">Action</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr class="hover:bg-gray-50 transition-colors duration-150">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10">
+                                        <img class="h-10 w-10 rounded-full object-cover" src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="">
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">Windhoek Jazz Fest</div>
+                                        <div class="text-sm text-gray-500">May 15-17, 2024</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">NAD 8,540</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    <i class="fas fa-check-circle mr-1"></i> Paid (May 5)
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">3 business days after event</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <a href="#" class="text-red-600 hover:text-red-900">View Details</a>
+                            </td>
+                        </tr>
+                        
+                        <tr class="hover:bg-gray-50 transition-colors duration-150">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10">
+                                        <img class="h-10 w-10 rounded-full object-cover" src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="">
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">Food Festival</div>
+                                        <div class="text-sm text-gray-500">June 10-11, 2024</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">NAD 12,760</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                    <i class="fas fa-spinner fa-pulse mr-1"></i> Processing
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Expected by May 20</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <a href="#" class="text-red-600 hover:text-red-900">View Details</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="bg-gray-50 px-6 py-3 text-sm text-gray-500">
+                <i class="fas fa-info-circle mr-2 text-gray-400"></i> Payouts are processed within <strong>3 Namibian business days</strong> after your event ends.
+            </div>
+        </div>
+
+        <!-- Upcoming Events -->
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+            <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+                <h2 class="text-xl font-bold flex items-center">
+                    <span class="p-2 rounded-lg bg-blue-100 text-blue-600 mr-3">
+                        <i class="fas fa-calendar-alt"></i>
+                    </span>
+                    Your Upcoming Events
+                </h2>
+                <div class="flex space-x-3">
+                    <button class="text-sm text-gray-600 hover:text-red-600 flex items-center">
+                        <i class="fas fa-filter mr-1"></i> Filter
+                    </button>
+                    <button class="text-sm text-gray-600 hover:text-red-600 flex items-center">
+                        <i class="fas fa-sort mr-1"></i> Sort
+                    </button>
+                </div>
+            </div>
+            
+            <div class="divide-y divide-gray-200">
+                <!-- Event Card 1 -->
+                <div class="p-6 hover:bg-gray-50 transition-colors duration-150 group">
+                    <div class="flex flex-col md:flex-row md:items-center gap-6">
+                        <div class="flex-shrink-0 relative">
+                            <img class="h-24 w-24 rounded-xl object-cover shadow-sm" src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Event">
+                            <div class="absolute -bottom-2 -right-2 bg-white rounded-full shadow-md p-1">
+                                <div class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center">
+                                    <span class="text-xs font-bold">42</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-lg font-bold text-gray-900 truncate">Windhoek Jazz Festival 2024</h3>
+                            <p class="text-sm text-gray-600 mt-1">
+                                <span class="inline-flex items-center mr-3">
+                                    <i class="far fa-calendar-alt mr-1 text-gray-400"></i> May 15-17, 2024
+                                </span>
+                                <span class="inline-flex items-center">
+                                    <i class="fas fa-map-marker-alt mr-1 text-gray-400"></i> National Theatre
+                                </span>
+                            </p>
+                            <div class="mt-2 flex flex-wrap gap-2">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    <i class="fas fa-check-circle mr-1"></i> 42 tickets sold
+                                </span>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                    <i class="fas fa-star mr-1"></i> Featured
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-shrink-0 flex space-x-3 opacity-0 md:group-hover:opacity-100 transition-opacity duration-200">
+                            <button class="w-10 h-10 rounded-lg bg-white border border-gray-200 shadow-sm flex items-center justify-center text-gray-600 hover:text-red-600 hover:border-red-300">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+                            <button class="w-10 h-10 rounded-lg bg-white border border-gray-200 shadow-sm flex items-center justify-center text-gray-600 hover:text-red-600 hover:border-red-300">
+                                <i class="fas fa-chart-bar"></i>
+                            </button>
+                            <button class="w-10 h-10 rounded-lg bg-white border border-gray-200 shadow-sm flex items-center justify-center text-gray-600 hover:text-red-600 hover:border-red-300">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Event Card 2 -->
+                <div class="p-6 hover:bg-gray-50 transition-colors duration-150 group">
+                    <div class="flex flex-col md:flex-row md:items-center gap-6">
+                        <div class="flex-shrink-0 relative">
+                            <img class="h-24 w-24 rounded-xl object-cover shadow-sm" src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Event">
+                            <div class="absolute -bottom-2 -right-2 bg-white rounded-full shadow-md p-1">
+                                <div class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center">
+                                    <span class="text-xs font-bold">EB</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-lg font-bold text-gray-900 truncate">Namibia Food Festival</h3>
+                            <p class="text-sm text-gray-600 mt-1">
+                                <span class="inline-flex items-center mr-3">
+                                    <i class="far fa-calendar-alt mr-1 text-gray-400"></i> June 10-11, 2024
+                                </span>
+                                <span class="inline-flex items-center">
+                                    <i class="fas fa-map-marker-alt mr-1 text-gray-400"></i> Swakopmund
+                                </span>
+                            </p>
+                            <div class="mt-2 flex flex-wrap gap-2">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                    <i class="fas fa-bolt mr-1"></i> Early bird sales
+                                </span>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                    <i class="fas fa-tag mr-1"></i> 20% discount
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-shrink-0 flex space-x-3 opacity-0 md:group-hover:opacity-100 transition-opacity duration-200">
+                            <button class="w-10 h-10 rounded-lg bg-white border border-gray-200 shadow-sm flex items-center justify-center text-gray-600 hover:text-red-600 hover:border-red-300">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+                            <button class="w-10 h-10 rounded-lg bg-white border border-gray-200 shadow-sm flex items-center justify-center text-gray-600 hover:text-red-600 hover:border-red-300">
+                                <i class="fas fa-chart-bar"></i>
+                            </button>
+                            <button class="w-10 h-10 rounded-lg bg-white border border-gray-200 shadow-sm flex items-center justify-center text-gray-600 hover:text-red-600 hover:border-red-300">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-gray-50 px-6 py-4 text-center">
+                <a href="#" class="text-sm font-medium text-red-600 hover:text-red-800 inline-flex items-center">
+                    View all events <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Recent Activity & Help Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+            <!-- Recent Activity -->
+            <div class="md:col-span-2 bg-white rounded-2xl shadow-md p-6">
+                <h2 class="text-xl font-bold mb-6 flex items-center">
+                    <i class="fas fa-bell text-red-500 mr-3"></i>
+                    Recent Activity
+                </h2>
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <div class="p-2 bg-green-100 text-green-600 rounded-lg mr-4">
+                            <i class="fas fa-ticket-alt"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium">5 new tickets sold for Windhoek Jazz Fest</p>
+                            <p class="text-sm text-gray-500">2 hours ago • NAD 1,250</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="p-2 bg-blue-100 text-blue-600 rounded-lg mr-4">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium">New attendee registered for Food Festival</p>
+                            <p class="text-sm text-gray-500">Yesterday at 4:30 PM</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="p-2 bg-purple-100 text-purple-600 rounded-lg mr-4">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium">Payout processed for Jazz Festival</p>
+                            <p class="text-sm text-gray-500">May 5, 2024 • NAD 8,540</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Help Section -->
+            <div class="bg-gradient-to-r from-red-50 to-pink-50 rounded-2xl shadow-md p-6 border border-red-100">
+                <h2 class="text-xl font-bold mb-3">Need Help?</h2>
+                <p class="text-gray-700 mb-4">Our support team is here to help you with any questions about your events.</p>
+                <div class="grid grid-cols-2 gap-4">
+                    <a href="#" class="bg-white rounded-lg p-4 hover:shadow-md transition flex flex-col items-center text-center">
+                        <i class="fas fa-question-circle text-red-500 text-xl mb-2"></i>
+                        <span class="text-sm font-medium">Help Center</span>
+                    </a>
+                    <a href="#" class="bg-white rounded-lg p-4 hover:shadow-md transition flex flex-col items-center text-center">
+                        <i class="fas fa-comments text-red-500 text-xl mb-2"></i>
+                        <span class="text-sm font-medium">Live Chat</span>
+                    </a>
+                    <a href="#" class="bg-white rounded-lg p-4 hover:shadow-md transition flex flex-col items-center text-center">
+                        <i class="fas fa-book text-red-500 text-xl mb-2"></i>
+                        <span class="text-sm font-medium">Guides</span>
+                    </a>
+                    <a href="#" class="bg-white rounded-lg p-4 hover:shadow-md transition flex flex-col items-center text-center">
+                        <i class="fas fa-phone-alt text-red-500 text-xl mb-2"></i>
+                        <span class="text-sm font-medium">Call Us</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chart.js Implementation -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Sales Chart
+    const salesCtx = document.getElementById('salesChart').getContext('2d');
+    const salesChart = new Chart(salesCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['VIP Tickets', 'General Admission', 'Early Bird', 'Group Tickets'],
+            datasets: [{
+                data: [25, 40, 20, 15],
+                backgroundColor: [
+                    '#EF4444',
+                    '#3B82F6',
+                    '#10B981',
+                    '#8B5CF6'
+                ],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                }
+            }
+        }
+    });
+
+    // Revenue Chart
+    const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+    const revenueChart = new Chart(revenueCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Revenue (NAD)',
+                data: [4500, 5200, 7800, 10200, 15300, 21300],
+                backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                borderColor: '#EF4444',
+                borderWidth: 2,
+                tension: 0.3,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        drawBorder: false
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

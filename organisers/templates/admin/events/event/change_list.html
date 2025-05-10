@@ -1,0 +1,28 @@
+{% extends "admin/change_list.html" %}
+
+{% block content_title %}
+    <h1>Events Summary</h1>
+{% endblock %}
+
+{% block result_list %}
+    <div class="results">
+        <div class="totals" style="margin-bottom: 20px;">
+            <h2>Summary</h2>
+            <div style="display: flex; justify-content: space-between;">
+                <div style="width: 30%; padding: 10px; background: #f8f8f8; border: 1px solid #ddd;">
+                    <h3>Total Events</h3>
+                    <p>{{ total_events }}</p>
+                </div>
+                <div style="width: 30%; padding: 10px; background: #f8f8f8; border: 1px solid #ddd;">
+                    <h3>Active Events</h3>
+                    <p>{{ active_events }}</p>
+                </div>
+                <div style="width: 30%; padding: 10px; background: #f8f8f8; border: 1px solid #ddd;">
+                    <h3>Total Tickets Sold</h3>
+                    <p>{{ total_tickets_sold }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ block.super }}
+{% endblock %}

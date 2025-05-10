@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Buy tickets for events in Namibia - open to attendees worldwide">
+    <title>{% block title %}Ticketa - Events in Namibia{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    </noscript>
+    <style>
+        .mobile-menu {
+            transition: all 0.3s ease;
+        }
+
+        .ticket-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .international-badge {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            color: white;
+        }
+
+        .how-it-works-card {
+            transition: all 0.3s ease;
+        }
+
+        .how-it-works-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .payment-method:hover {
+            border-color: #EF4444 !important;
+        }
+
+        .payment-method.selected {
+            border-color: #EF4444;
+            background-color: #FEE2E2;
+        }
+
+        .slide-up {
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .category-filter.active {
+            background-color: #ef4444;
+            color: white;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body class="bg-red-50 text-gray-800 font-sans">
+    <!-- Navbar -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-red-600 flex items-center gap-2">
+                        <a href="{% url 'home' %}" class="fas fa-ticket-alt text-red-600"></a> ticketa.
+                        <span class="text-xs font-normal bg-red-100 text-red-800 px-2 py-1 rounded-full">Namibia</span>
+                    </h1>
+                </div>
+
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="{% url 'home' %}" class="text-gray-700 hover:text-red-600 font-medium"><i
+                            class="fas fa-home-alt mr-1"></i>Home</a>
+                    <a href="{% url "events" %}" class="text-gray-700 hover:text-red-600 font-medium"><i
+                            class="fas fa-ticket-alt mr-1"></i>Buy Tickets</a>
+                    <a href="{% url "organisers:event_create" %}" class="text-gray-700 hover:text-red-600 font-medium"><i
+                            class="fas fa-plus-circle mr-1"></i>Create Event</a>
+                    <a href="#" class="text-gray-700 hover:text-red-600 font-medium"><i
+                            class="fas fa-comments mr-1"></i>Contact</a>
+                </nav>
+
+                <div class="flex items-center space-x-4">
+                    <div class="hidden md:block">
+                        <select id="currency-selector"
+                            class="bg-red-50 border border-red-100 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-red-500">
+                            <option value="NAD">NAD</option>
+                            <option value="USD">USD</option>
+                            <option value="EUR">EUR</option>
+                            <option value="GBP">GBP</option>
+                        </select>
+                    </div>
+                    <a href="{% url "users:login" %}"
+                        class="hidden md:block bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 font-medium">
+                        <i class="fas fa-sign-in-alt mr-1"></i> Login
+                    </a>
+                    <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-red-600">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu hidden md:hidden bg-white border-t">
+            <div class="px-4 py-3 space-y-3">
+                <a href="#events" class="block px-3 py-2 rounded hover:bg-red-50"><i
+                        class="fas fa-calendar-alt mr-2"></i>Events</a>
+                <a href="#how-to-buy" class="block px-3 py-2 rounded hover:bg-red-50"><i
+                        class="fas fa-ticket-alt mr-2"></i>Buy Tickets</a>
+                <a href="#create-event" class="block px-3 py-2 rounded hover:bg-red-50"><i
+                        class="fas fa-plus-circle mr-2"></i>Create Event</a>
+                <a href="#features" class="block px-3 py-2 rounded hover:bg-red-50"><i
+                        class="fas fa-star mr-2"></i>Features</a>
+                <div class="pt-2">
+                    <select class="w-full bg-red-50 border border-red-100 rounded px-3 py-2 text-sm">
+                        <option value="NAD">NAD (Namibian Dollar)</option>
+                        <option value="USD">USD (US Dollar)</option>
+                        <option value="EUR">EUR (Euro)</option>
+                        <option value="GBP">GBP (British Pound)</option>
+                    </select>
+                </div>
+                <a href="{% url "users:login" %}"
+                    class="block w-full text-center bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 font-medium mt-2">
+                    <i class="fas fa-sign-in-alt mr-1"></i> Login
+                </a>
+            </div>
+        </div>
+    </header>
+
+    {% block content %}{% endblock %}
+
+    {% comment %} <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400">
+        <div class="max-w-7xl mx-auto px-4 py-12">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-white text-lg font-semibold mb-4 flex items-center">
+                        <i class="fas fa-ticket-alt text-red-500 mr-2"></i> NamTicket
+                    </h3>
+                    <p class="mb-4">Namibia's premier ticketing platform for local and international attendees.</p>
+                </div>
+
+                <div>
+                    <h4 class="text-white text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#events" class="hover:text-white">Events in Namibia</a></li>
+                        <li><a href="#how-to-buy" class="hover:text-white">How To Buy Tickets</a></li>
+                        <li><a href="#create-event" class="hover:text-white">Create an Event</a></li>
+                        <li><a href="#features" class="hover:text-white">Features</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white text-lg font-semibold mb-4">Contact</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2 text-red-500"></i>
+                            <span>Windhoek, Namibia</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2 text-red-500"></i>
+                            <span>bookings@namticket.na</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-2 text-red-500"></i>
+                            <span>+264 61 123 4567</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p>&copy; 2025 NamTicket. All events take place in Namibia.</p>
+            </div>
+        </div>
+    </footer> {% endcomment %}
+        <!-- Footer -->
+        <footer id="contact" class="bg-gray-900 text-gray-400">
+            <div class="max-w-7xl mx-auto px-4 py-12">
+                <div class="grid md:grid-cols-4 gap-8">
+                    <div>
+                        <h3 class="text-white text-lg font-semibold mb-4 flex items-center">
+                            <i class="fas fa-ticket-alt text-red-500 mr-2"></i> Ticketa
+                        </h3>
+                        <p class="mb-4">Namibia's ticketing platform with global capabilities.</p>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-gray-400 hover:text-white">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-white">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-white">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-white">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </div>
+                    </div>
+        
+                    <div>
+                        <h4 class="text-white text-lg font-semibold mb-4">Company</h4>
+                        <ul class="space-y-2">
+                            <li><a href="{% url 'about' %}" class="hover:text-white">About Us</a></li>
+                            <li><a href="{% url 'careers' %}" class="hover:text-white">Careers</a></li>
+                            <li><a href="#" class="hover:text-white">Blog</a></li>
+                            <li><a href="#" class="hover:text-white">Press</a></li>
+                        </ul>
+                    </div>
+        
+                    <div>
+                        <h4 class="text-white text-lg font-semibold mb-4">Support</h4>
+                        <ul class="space-y-2">
+                            <li><a href="{% url 'help_center' %}" class="hover:text-white">Help Center</a></li>
+                            <li><a href="{% url 'community' %}" class="hover:text-white">Community</a></li>
+                            <li><a href="#" class="hover:text-white">Organizer Resources</a></li>
+                            <li><a href="#" class="hover:text-white">Safety Information</a></li>
+                        </ul>
+                    </div>
+        
+                    <div>
+                        <h4 class="text-white text-lg font-semibold mb-4">Contact</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-map-marker-alt mt-1 mr-2 text-red-500"></i>
+                                <span>123 Independence Ave, Windhoek, Namibia</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-phone-alt mr-2 text-red-500"></i>
+                                <span>+264 61 123 4567</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-envelope mr-2 text-red-500"></i>
+                                <a href="mailto:support@namticket.na" class="hover:text-white">support@ticketa.com</a>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-globe mr-2 text-red-500"></i>
+                                <span>International: +1 (555) 123-4567</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+        
+                <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                    <div class="mb-4 md:mb-0">
+                        <p>&copy; {{ current_year }} 2025 Ticketa. All rights reserved. Proudly Namibian.</p>
+                    </div>
+                    <div class="flex space-x-6">
+                        <a href="{% url 'terms' %}" class="hover:text-white">Terms</a>
+                        <a href="{% url 'privacy' %}" class="hover:text-white">Privacy</a>
+                        <a href="#" class="hover:text-white">GDPR</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function () {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Currency selector functionality
+        document.getElementById('currency-selector').addEventListener('change', function () {
+            console.log('Currency changed to:', this.value);
+            // In a real implementation, this would update prices on the page
+        });
+
+        {% comment %} // Login modal functionality
+        const loginModal = document.getElementById('login-modal');
+        const loginButtons = document.querySelectorAll('a[href="#login"]');
+        const closeLoginModal = document.getElementById('close-login-modal');
+
+        loginButtons.forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                loginModal.classList.remove('hidden');
+            });
+        }); {% endcomment %}
+
+        closeLoginModal.addEventListener('click', function () {
+            loginModal.classList.add('hidden');
+        });
+
+        // Close modal when clicking outside
+        loginModal.addEventListener('click', function (e) {
+            if (e.target === loginModal) {
+                loginModal.classList.add('hidden');
+            }
+        });
+        // FAQ Toggle Functionality
+        document.querySelectorAll('.faq-toggle').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const icon = button.querySelector('i');
+
+                // Toggle content visibility
+                content.classList.toggle('hidden');
+
+                // Rotate icon
+                icon.classList.toggle('rotate-180');
+
+                // Close other open FAQs
+                document.querySelectorAll('.faq-toggle').forEach(otherButton => {
+                    if (otherButton !== button) {
+                        otherButton.nextElementSibling.classList.add('hidden');
+                        otherButton.querySelector('i').classList.remove('rotate-180');
+                    }
+                });
+            });
+        });
+
+        // Add rotate-180 class to Tailwind config
+        tailwind.config = {
+            theme: {
+                extend: {
+                    rotate: {
+                        '180': '180deg',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

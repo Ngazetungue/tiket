@@ -1,0 +1,635 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-red-600 to-red-700 text-white py-12 shadow-md py-20 text-center px-4">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">
+                Discover Amazing Events in Namibia
+            </h1>
+            <p class="text-lg mb-8 text-while">
+                Buy tickets from anywhere in the world - all events take place in Namibia
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="{% url "events" %}"
+                    class="bg-gray-600 text-white px-8 py-3 rounded-lg text-lg hover:bg-red-700 font-medium shadow-md">
+                    <i class="fas fa-search mr-2"></i>Browse Events
+                </a>
+                <a href="#how-to-buy"
+                    class="bg-white text-red-600 px-8 py-3 rounded-lg text-lg hover:bg-red-50 font-medium border border-red-200 shadow-md">
+                    <i class="fas fa-question-circle mr-2"></i>How To Buy
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 bg-white px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-3">Why Choose Ticketa?</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Our platform offers unique benefits for both attendees and
+                    organizers</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-red-50 p-6 rounded-xl feature-card">
+                    <div class="text-red-600 text-4xl mb-4">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Global Reach</h3>
+                    <p class="text-gray-600">Sell tickets to international audiences with automatic currency conversion
+                        and localized payment methods.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-red-50 p-6 rounded-xl feature-card">
+                    <div class="text-red-600 text-4xl mb-4">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Secure QR Tickets</h3>
+                    <p class="text-gray-600">Fraud-proof digital tickets with unique QR codes for easy check-in at
+                        events.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-red-50 p-6 rounded-xl feature-card">
+                    <div class="text-red-600 text-4xl mb-4">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Real-time Analytics</h3>
+                    <p class="text-gray-600">Track ticket sales and attendance in real-time with comprehensive
+                        dashboards.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bg-red-50 p-6 rounded-xl feature-card">
+                    <div class="text-red-600 text-4xl mb-4">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Flexible Payouts</h3>
+                    <p class="text-gray-600">Get paid directly to your bank account with multiple payout options.</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="bg-red-50 p-6 rounded-xl feature-card">
+                    <div class="text-red-600 text-4xl mb-4">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Mobile Friendly</h3>
+                    <p class="text-gray-600">Fully responsive platform that works perfectly on all devices.</p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="bg-red-50 p-6 rounded-xl feature-card">
+                    <div class="text-red-600 text-4xl mb-4">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">24/7 Support</h3>
+                    <p class="text-gray-600">Dedicated customer support for both organizers and attendees.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How Namticket Works Section -->
+    <section id="how-to-buy" class="py-16 bg-white px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-3">How Ticketa Works</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Whether you're buying tickets or organizing an event, we make
+                    the process simple worldwide</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-16">
+                <!-- For Ticket Buyers -->
+                <div class="bg-red-50 p-8 rounded-xl how-it-works-card">
+                    <div class="text-center mb-6">
+                        <h3 class="text-xl font-semibold mb-2 text-red-600">For Ticket Buyers</h3>
+                        <p class="text-gray-600">Easy ticket purchasing from anywhere in the world</p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- Step 1 -->
+                        <div class="flex items-start">
+                            <div
+                                class="bg-red-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 mr-4">
+                                <span class="text-red-600 text-xl font-bold">1</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-1">Find Your Event</h4>
+                                <p class="text-gray-600 text-sm">Browse concerts, festivals, and shows in your region or
+                                    worldwide</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="flex items-start">
+                            <div
+                                class="bg-red-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 mr-4">
+                                <span class="text-red-600 text-xl font-bold">2</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-1">Select & Pay</h4>
+                                <p class="text-gray-600 text-sm">Choose tickets and pay with local payment methods in
+                                    your currency</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="flex items-start">
+                            <div
+                                class="bg-red-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 mr-4">
+                                <span class="text-red-600 text-xl font-bold">3</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-1">Get Your Ticket</h4>
+                                <p class="text-gray-600 text-sm">Instant mobile ticket with secure QR code or
+                                    print-at-home option</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 text-center">
+                        <a href="#events"
+                            class="inline-block bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700">
+                            Browse Events <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- For Event Organizers -->
+                <div class="bg-red-50 p-8 rounded-xl how-it-works-card">
+                    <div class="text-center mb-6">
+                        <h3 class="text-xl font-semibold mb-2 text-red-600">For Event Organizers</h3>
+                        <p class="text-gray-600">Reach both local and international audiences</p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- Step 1 -->
+                        <div class="flex items-start">
+                            <div
+                                class="bg-red-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 mr-4">
+                                <span class="text-red-600 text-xl font-bold">1</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-1">Create Event</h4>
+                                <p class="text-gray-600 text-sm">Set up your event in minutes with our simple form</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="flex items-start">
+                            <div
+                                class="bg-red-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 mr-4">
+                                <span class="text-red-600 text-xl font-bold">2</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-1">Sell Tickets</h4>
+                                <p class="text-gray-600 text-sm">Customers pay via local payment methods in their
+                                    currency</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="flex items-start">
+                            <div
+                                class="bg-red-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 mr-4">
+                                <span class="text-red-600 text-xl font-bold">3</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-1">Manage Event</h4>
+                                <p class="text-gray-600 text-sm">Scan QR codes and track sales in real-time with our
+                                    global platform</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 text-center">
+                        <a href="#"
+                            class="inline-block bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700">
+                            Create Event <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Buy Tickets -->
+    {% comment %} <section id="how-to-buy" class="py-16 bg-white px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-3">How To Buy Tickets</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Simple process for both Namibian and international buyers</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Step 1 -->
+                <div class="text-center">
+                    <div class="bg-red-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5">
+                        <span class="text-red-600 text-3xl font-bold">1</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Find Your Event</h3>
+                    <p class="text-gray-600">Browse concerts, festivals, and experiences happening in Namibia</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="text-center">
+                    <div class="bg-red-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5">
+                        <span class="text-red-600 text-3xl font-bold">2</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Select Tickets</h3>
+                    <p class="text-gray-600">Choose your tickets - prices shown in NAD with currency conversion</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="text-center">
+                    <div class="bg-red-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5">
+                        <span class="text-red-600 text-3xl font-bold">3</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Pay Your Way</h3>
+                    <p class="text-gray-600">Use local Namibian payment methods or international cards</p>
+                </div>
+            </div>
+
+            <!-- Payment Methods -->
+            <div class="mt-16 text-center">
+                <h3 class="text-xl font-semibold mb-4">We Accept</h3>
+                <div class="flex flex-wrap justify-center gap-4 max-w-2xl mx-auto">
+                    <div class="bg-white p-3 rounded-lg shadow-sm border border-red-200">
+                        <i class="fab fa-cc-visa text-3xl text-blue-800"></i>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg shadow-sm border border-red-200">
+                        <i class="fab fa-cc-mastercard text-3xl text-red-800"></i>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg shadow-sm border border-red-200">
+                        <i class="fab fa-cc-paypal text-3xl text-blue-500"></i>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg shadow-sm border border-red-200">
+                        <img src="https://placeholder.com/100x50?text=PayToday" alt="PayToday" class="h-6">
+                    </div>
+                    <div class="bg-white p-3 rounded-lg shadow-sm border border-red-200">
+                        <i class="fas fa-university text-2xl text-gray-600"></i>
+                    </div>
+                </div>
+                <p class="mt-4 text-sm text-gray-500">Currency conversion applied for international cards</p>
+            </div>
+
+            <!-- International Buyer Info -->
+            <div class="mt-12 bg-red-100 p-6 rounded-lg">
+                <h3 class="text-xl font-semibold mb-3 flex items-center justify-center">
+                    <i class="fas fa-globe-americas mr-2 text-red-600"></i> International Attendees
+                </h3>
+                <p class="mb-4 text-center">Traveling to Namibia for an event? We've got you covered:</p>
+                <div class="grid md:grid-cols-3 gap-4 text-sm">
+                    <div class="bg-white p-3 rounded-lg text-center">
+                        <i class="fas fa-passport text-red-500 mb-1"></i>
+                        <p>Visa information available for all events</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg text-center">
+                        <i class="fas fa-map-marked-alt text-red-500 mb-1"></i>
+                        <p>Detailed venue directions</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg text-center">
+                        <i class="fas fa-hotel text-red-500 mb-1"></i>
+                        <p>Recommended accommodations</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> {% endcomment %}
+
+    <!-- Events Section -->
+    <section id="events" class="py-16 bg-red-50 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-3">Upcoming Events in Namibia</h2>
+                <p class="text-gray-600">Buy your spot today - open to attendees worldwide</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Event 1 -->
+                <div
+                    class="bg-white border border-red-200 rounded-xl overflow-hidden ticket-card transition duration-300">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+                            alt="Windhoek Jazz Festival" class="w-full h-48 object-cover">
+                        <div
+                            class="absolute top-4 left-4 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                            Music
+                        </div>
+                        <div
+                            class="absolute top-4 right-4 international-badge text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            International Tickets
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Windhoek Jazz Festival</h3>
+                        <p class="text-sm text-gray-500 mb-3">
+                            <i class="fas fa-map-marker-alt mr-1 text-red-500"></i> National Theatre, Windhoek
+                            <span class="block"><i class="far fa-calendar-alt mr-1 text-red-500"></i> May 15-17,
+                                2025</span>
+                        </p>
+                        <p class="text-gray-600 mb-4">Three days of smooth jazz featuring local and international
+                            artists under the stars.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-gray-900">From N$150 / $8</span>
+                            <a href="{% url "checkout" %}" class="text-red-600 hover:text-red-700 font-medium">Buy Tickets</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event 2 -->
+                <div
+                    class="bg-white border border-red-200 rounded-xl overflow-hidden ticket-card transition duration-300">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1514539079130-25950c84af65?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+                            alt="Namib Desert Marathon" class="w-full h-48 object-cover">
+                        <div
+                            class="absolute top-4 left-4 bg-green-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                            Sports
+                        </div>
+                        <div
+                            class="absolute top-4 right-4 international-badge text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            International Tickets
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Namib Desert Marathon</h3>
+                        <p class="text-sm text-gray-500 mb-3">
+                            <i class="fas fa-map-marker-alt mr-1 text-red-500"></i> Sossusvlei, Namibia
+                            <span class="block"><i class="far fa-calendar-alt mr-1 text-red-500"></i> June 5,
+                                2025</span>
+                        </p>
+                        <p class="text-gray-600 mb-4">Challenge yourself in one of the world's most stunning landscapes.
+                            Popular with international runners.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-gray-900">N$1,200 / $65</span>
+                            <a href="{% url "checkout" %}" class="text-red-600 hover:text-red-700 font-medium">Buy Tickets</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event 3 -->
+                <div
+                    class="bg-white border border-red-200 rounded-xl overflow-hidden ticket-card transition duration-300">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+                            alt="Namibia Food Festival" class="w-full h-48 object-cover">
+                        <div
+                            class="absolute top-4 left-4 bg-yellow-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                            Food
+                        </div>
+                        <div
+                            class="absolute top-4 right-4 international-badge text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            International Tickets
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Namibia Food Festival</h3>
+                        <p class="text-sm text-gray-500 mb-3">
+                            <i class="fas fa-map-marker-alt mr-1 text-red-500"></i> Swakopmund Waterfront
+                            <span class="block"><i class="far fa-calendar-alt mr-1 text-red-500"></i> July 10-11,
+                                2025</span>
+                        </p>
+                        <p class="text-gray-600 mb-4">Sample Namibia's culinary delights from traditional game meats to
+                            German-inspired pastries.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-gray-900">N$75 / $4</span>
+                            <a href="{% url "checkout" %}" class="text-red-600 hover:text-red-700 font-medium">Buy Tickets</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-10">
+                <a href="{% url "events" %}"
+                    class="inline-flex items-center px-6 py-3 border border-red-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-red-50">
+                    View All Events <i class="fas fa-chevron-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Create Event Section -->
+    <section id="create-event" class="py-16 bg-red-400 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-4">Host Your Event in Namibia</h2>
+            <p class="text-xl mb-8 text-gray-700">Reach both local and international audiences</p>
+            <a href="{% url "users:login" %}"
+                class="inline-flex items-center px-8 py-4 bg-red-600 text-white rounded-lg text-lg hover:bg-red-700 font-medium shadow-lg">
+                <i class="fas fa-calendar-plus mr-2"></i> Create Event Now
+            </a>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-16 bg-white px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-3">What Attendees Say</h2>
+                <p class="text-gray-600">From both Namibia and around the world</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-red-50 p-6 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah"
+                            class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-semibold">Sarah K.</h4>
+                            <p class="text-sm text-gray-500">Windhoek, Namibia</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700">"I've used NamTicket for both local and international events in Namibia.
+                        The payment process is seamless whether I'm paying with NAD or my international credit card."
+                    </p>
+                </div>
+
+                <div class="bg-red-50 p-6 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Thomas"
+                            class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-semibold">Thomas R.</h4>
+                            <p class="text-sm text-gray-500">Berlin, Germany</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700">"Attending the Namib Desert Marathon was a dream. Buying tickets from
+                        Germany was
+                        easy - prices were clear in EUR and my Visa card worked perfectly. The e-ticket was accepted
+                        without issues."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal (hidden by default) -->
+    <div id="login-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg max-w-md w-full p-8">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">Login to Ticketa</h3>
+                <button id="close-login-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <form>
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2" for="email">Email</label>
+                    <input type="email" id="email"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-gray-700 mb-2" for="password">Password</label>
+                    <input type="password" id="password"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-red-600 text-white py-3 rounded-lg font-medium hover:bg-red-700 mb-4">
+                    Login
+                </button>
+
+                <div class="text-center">
+                    <a href="#" class="text-red-600 hover:underline text-sm">Forgot password?</a>
+                    <p class="text-gray-600 mt-2 text-sm">Don't have an account? <a href="#"
+                            class="text-red-600 hover:underline">Sign up</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16 bg-gradient-to-r from-red-100 to-red-200 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-3">Frequently Asked Questions</h2>
+                <p class="text-gray-700">Find answers to common questions about NamTicket</p>
+            </div>
+
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="bg-white border border-red-200 rounded-lg overflow-hidden">
+                    <button class="faq-toggle w-full text-left p-6 hover:bg-red-50 focus:outline-none">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-medium">How do I purchase tickets?</h3>
+                            <i class="fas fa-chevron-down text-red-600 transition-transform"></i>
+                        </div>
+                    </button>
+                    <div class="faq-content px-6 pb-6 hidden">
+                        <p class="text-gray-600">Purchasing tickets is simple! Just browse our <a href="#events"
+                                class="text-red-600 hover:underline">events page</a>, select the event you want to
+                            attend, choose your ticket type and quantity, and proceed to checkout. You can pay using
+                            various payment methods including credit cards, debit cards, and mobile payments.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="bg-white border border-red-200 rounded-lg overflow-hidden">
+                    <button class="faq-toggle w-full text-left p-6 hover:bg-red-50 focus:outline-none">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-medium">What payment methods do you accept?</h3>
+                            <i class="fas fa-chevron-down text-red-600 transition-transform"></i>
+                        </div>
+                    </button>
+                    <div class="faq-content px-6 pb-6 hidden">
+                        <p class="text-gray-600 mb-4">We accept multiple payment methods including:</p>
+                        <ul class="list-disc pl-5 space-y-2 text-gray-600">
+                            <li>Visa, Mastercard, and other major credit/debit cards</li>
+                            <li>Mobile payment options (MTC, Telecom, etc.)</li>
+                            <li>Bank transfers (for certain events)</li>
+                            <li>PayPal for international attendees</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="bg-white border border-red-200 rounded-lg overflow-hidden">
+                    <button class="faq-toggle w-full text-left p-6 hover:bg-red-50 focus:outline-none">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-medium">How do I get my tickets after purchasing?</h3>
+                            <i class="fas fa-chevron-down text-red-600 transition-transform"></i>
+                        </div>
+                    </button>
+                    <div class="faq-content px-6 pb-6 hidden">
+                        <p class="text-gray-600">After completing your purchase:</p>
+                        <ol class="list-decimal pl-5 space-y-2 text-gray-600 mt-2">
+                            <li>You'll receive an email confirmation with your tickets attached as PDF</li>
+                            <li>Tickets will also be available in your NamTicket account</li>
+                            <li>For mobile tickets, you can access them through our mobile app</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="bg-white border border-red-200 rounded-lg overflow-hidden">
+                    <button class="faq-toggle w-full text-left p-6 hover:bg-red-50 focus:outline-none">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-medium">Can I get a refund for my tickets?</h3>
+                            <i class="fas fa-chevron-down text-red-600 transition-transform"></i>
+                        </div>
+                    </button>
+                    <div class="faq-content px-6 pb-6 hidden">
+                        <p class="text-gray-600 mb-4">Our refund policy depends on the event organizer's preferences.
+                            Generally:</p>
+                        <ul class="list-disc pl-5 space-y-2 text-gray-600">
+                            <li>Most events offer refunds up to 7 days before the event</li>
+                            <li>Some special events may have non-refundable tickets</li>
+                            <li>If an event is canceled, you'll automatically receive a full refund</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 5 -->
+                <div class="bg-white border border-red-200 rounded-lg overflow-hidden">
+                    <button class="faq-toggle w-full text-left p-6 hover:bg-red-50 focus:outline-none">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-medium">How do I create and sell tickets for my event?</h3>
+                            <i class="fas fa-chevron-down text-red-600 transition-transform"></i>
+                        </div>
+                    </button>
+                    <div class="faq-content px-6 pb-6 hidden">
+                        <p class="text-gray-600">To create an event and sell tickets:</p>
+                        <ol class="list-decimal pl-5 space-y-2 text-gray-600">
+                            <li>Click "Create Event" at the top of the page</li>
+                            <li>Fill in your event details (name, date, location, etc.)</li>
+                            <li>Set up your ticket types and pricing</li>
+                            <li>Configure any additional options (seating, discounts, etc.)</li>
+                            <li>Publish your event and start selling tickets!</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center">
+                <p class="text-gray-700 mb-4">Still have questions?</p>
+                <a href="#contact"
+                    class="inline-flex items-center px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium">
+                    <i class="fas fa-envelope mr-2"></i> Contact Our Support Team
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-16 bg-gradient-to-r from-red-600 to-red-700 text-white text-center px-4">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-4">Experience Namibia's Events</h2>
+            <p class="text-xl mb-8">Buy tickets from anywhere in the world - all events happen in beautiful Namibia</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#events"
+                    class="bg-white text-red-600 px-8 py-3 rounded-lg text-lg hover:bg-gray-100 font-medium shadow-md">
+                    <i class="fas fa-ticket-alt mr-2"></i>Browse Events
+                </a>
+                <a href="#how-to-buy"
+                    class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg text-lg hover:bg-white hover:bg-opacity-10 font-medium">
+                    <i class="fas fa-question-circle mr-2"></i>How To Buy
+                </a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

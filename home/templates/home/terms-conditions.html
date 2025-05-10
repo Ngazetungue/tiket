@@ -1,0 +1,83 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+<section class="bg-gray-50 py-16">
+    <div class="container mx-auto px-4 max-w-4xl">
+        <div class="bg-white rounded-xl shadow-sm p-8 md:p-12">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Terms & Conditions</h1>
+                <p class="text-gray-600">Last updated: {{ current_date }}</p>
+            </div>
+
+            <!-- Intro -->
+            <div class="mb-10">
+                <p class="text-gray-700 mb-4">
+                    These Terms and Conditions govern your use of the NamTix platform and services. By accessing or using our services, you agree to be bound by these terms.
+                </p>
+            </div>
+
+            <!-- Terms Sections -->
+            <div class="prose max-w-none text-gray-700">
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">1. Account Registration</h2>
+                <ul>
+                    <li>You must provide accurate and complete registration information</li>
+                    <li>You are responsible for maintaining account security</li>
+                    <li>Accounts are non-transferable</li>
+                </ul>
+
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">2. Ticket Purchases</h2>
+                <ul>
+                    <li>All sales are final unless event is cancelled</li>
+                    <li>Prices are in Namibian Dollars (NAD) and inclusive of applicable taxes</li>
+                    <li>We reserve the right to limit ticket quantities</li>
+                    <li>You must present valid ID matching ticket name for entry when required</li>
+                </ul>
+
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">3. Event Changes & Cancellations</h2>
+                <ul>
+                    <li>Event details (date, time, venue) may change - check our platform for updates</li>
+                    <li>For cancelled events, refunds will be processed within 14 business days</li>
+                    <li>Postponed events will be honored for the rescheduled date</li>
+                </ul>
+
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">4. Prohibited Conduct</h2>
+                <p>You agree not to:</p>
+                <ul>
+                    <li>Resell tickets above face value without authorization</li>
+                    <li>Use bots or automated systems to purchase tickets</li>
+                    <li>Create fake events or listings</li>
+                    <li>Violate any Namibian laws while using our platform</li>
+                </ul>
+
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">5. Intellectual Property</h2>
+                <ul>
+                    <li>All platform content is owned by NamTix or its licensors</li>
+                    <li>Event organizers retain rights to their event content</li>
+                    <li>Unauthorized use of any materials is prohibited</li>
+                </ul>
+
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">6. Limitation of Liability</h2>
+                <ul>
+                    <li>NamTix is not responsible for events organized by third parties</li>
+                    <li>We are not liable for any indirect, incidental, or consequential damages</li>
+                    <li>Our total liability is limited to the ticket price paid</li>
+                </ul>
+
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">7. Governing Law</h2>
+                <p>These terms are governed by the laws of Namibia. Any disputes will be resolved in the courts of Windhoek.</p>
+
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">8. Changes to Terms</h2>
+                <p>We may modify these terms at any time. Continued use constitutes acceptance of changes.</p>
+
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">9. Contact Information</h2>
+                <p>
+                    For questions about these Terms:<br>
+                    Email: <a href="mailto:legal@namtix.com" class="text-red-600 hover:underline">legal@namtix.com</a><br>
+                    Postal: Legal Department, NamTix, Roentgen Street, Windhoek, Namibia
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

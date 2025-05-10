@@ -1,0 +1,92 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+<section class="bg-gray-50 py-16">
+    <div class="container mx-auto px-4 max-w-4xl">
+        <div class="bg-white rounded-xl shadow-sm p-8 md:p-12">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Privacy Policy</h1>
+                <p class="text-gray-600">Last updated: {{ current_date }}</p>
+            </div>
+
+            <!-- Intro -->
+            <div class="mb-10">
+                <p class="text-gray-700 mb-4">
+                    NamTix ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our ticketing platform and services.
+                </p>
+            </div>
+
+            <!-- Policy Sections -->
+            <div class="prose max-w-none text-gray-700">
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">1. Information We Collect</h2>
+                <p>We may collect the following types of information:</p>
+                <ul>
+                    <li><strong>Personal Information:</strong> Name, email, phone number, payment details when you purchase tickets</li>
+                    <li><strong>Event Information:</strong> Events you attend, purchase history, preferences</li>
+                    <li><strong>Device Information:</strong> IP address, browser type, device characteristics</li>
+                    <li><strong>Usage Data:</strong> Pages visited, features used, time spent on platform</li>
+                </ul>
+
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">2. How We Use Your Information</h2>
+                <p>We use the information we collect to:</p>
+                <ul>
+                    <li>Process ticket purchases and manage your account</li>
+                    <li>Provide customer support and respond to inquiries</li>
+                    <li>Improve our platform and services</li>
+                    <li>Send event recommendations and promotional offers (with your consent)</li>
+                    <li>Prevent fraud and ensure platform security</li>
+                    <li>Comply with legal obligations</li>
+                </ul>
+
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">3. Data Sharing and Disclosure</h2>
+                <p>We may share your information with:</p>
+                <ul>
+                    <li><strong>Event Organizers:</strong> Necessary details for event access and management</li>
+                    <li><strong>Payment Processors:</strong> To complete transactions (PayGate Namibia, MTC Money, etc.)</li>
+                    <li><strong>Service Providers:</strong> Companies that help us operate our business</li>
+                    <li><strong>Legal Authorities:</strong> When required by Namibian law</li>
+                </ul>
+                <p>We never sell your personal information to third parties.</p>
+
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">4. Data Security</h2>
+                <p>We implement appropriate security measures including:</p>
+                <ul>
+                    <li>SSL encryption for all data transmissions</li>
+                    <li>Secure storage of payment information</li>
+                    <li>Regular security audits</li>
+                    <li>Limited access to personal data</li>
+                </ul>
+
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">5. Your Rights</h2>
+                <p>Under Namibian data protection laws, you have the right to:</p>
+                <ul>
+                    <li>Access your personal information</li>
+                    <li>Request correction of inaccurate data</li>
+                    <li>Opt-out of marketing communications</li>
+                    <li>Request deletion of your account data (subject to legal requirements)</li>
+                </ul>
+
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">6. Cookies and Tracking</h2>
+                <p>We use cookies to:</p>
+                <ul>
+                    <li>Remember your preferences</li>
+                    <li>Analyze site traffic</li>
+                    <li>Improve user experience</li>
+                </ul>
+                <p>You can manage cookie preferences in your browser settings.</p>
+
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">7. Changes to This Policy</h2>
+                <p>We may update this policy periodically. Significant changes will be notified via email or platform announcements.</p>
+
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">8. Contact Us</h2>
+                <p>For privacy-related inquiries:</p>
+                <p>
+                    Email: <a href="mailto:privacy@namtix.com" class="text-red-600 hover:underline">privacy@namtix.com</a><br>
+                    Postal: Data Protection Officer, NamTix, Roentgen Street, Windhoek, Namibia
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

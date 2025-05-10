@@ -1,0 +1,635 @@
+{% extends "organisers/base-dash.html" %}
+
+{% block content %}
+<body class="bg-gray-50" x-data="eventForm()" x-init="init()">
+    <!-- Progress Bar -->
+    <div class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-2">
+            <div class="flex justify-between items-center">
+                <div class="flex-1">
+                    <div class="flex justify-between text-sm font-medium">
+                        <template x-for="(step, index) in steps" :key="index">
+                            <span 
+                                @click="currentStep >= index + 1 ? goToStep(index + 1) : null"
+                                :class="{
+                                    'text-red-600': currentStep >= index + 1,
+                                    'text-gray-500': currentStep < index + 1,
+                                    'cursor-pointer': currentStep >= index + 1
+                                }"
+                                x-text="step.name"
+                            ></span>
+                        </template>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                        <div 
+                            class="bg-red-600 h-2 rounded-full transition-all duration-300" 
+                            :style="`width: ${(currentStep - 1) * (100 / (steps.length - 1))}%`"
+                        ></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Steps -->
+    <main class="container mx-auto px-4 py-8 max-w-3xl">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Step 1: Event Details -->
+            <div x-show="currentStep === 1" class="space-y-6">
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">Event Details</h2>
+            
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Event Name*</label>
+                            {{ form.title }}
+                            {% if form.title.errors %}
+                                <p class="text-red-500 text-sm">{{ form.title.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+            
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Start Date*</label>
+                                {{ form.start_date }}
+                                {% if form.start_date.errors %}
+                                    <p class="text-red-500 text-sm">{{ form.start_date.errors.0 }}</p>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">End Date*</label>
+                                {{ form.end_date }}
+                                {% if form.end_date.errors %}
+                                    <p class="text-red-500 text-sm">{{ form.end_date.errors.0 }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+            
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Location*</label>
+                            {{ form.location }}
+                            {% if form.location.errors %}
+                                <p class="text-red-500 text-sm">{{ form.location.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+            
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Venue Name*</label>
+                            {{ form.venue }}
+                            {% if form.venue.errors %}
+                                <p class="text-red-500 text-sm">{{ form.venue.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+            
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Event Description*</label>
+                            {{ form.description }}
+                            {% if form.description.errors %}
+                                <p class="text-red-500 text-sm">{{ form.description.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+            
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Event Image</label>
+                            {{ form.image }}
+                            {% if form.image.errors %}
+                                <p class="text-red-500 text-sm">{{ form.image.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="flex justify-end">
+                    <button 
+                        type="button" 
+                        @click="nextStep()"
+                        class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg"
+                    >
+                        Next: Tickets <i class="fas fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Tickets -->
+            <div x-show="currentStep === 2" class="space-y-6">
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">Ticket Types</h2>
+
+                    <div class="space-y-4" id="ticket-types-container">
+                        {{ ticket_type_formset.management_form }}
+                        
+                        <template x-for="(form, index) in ticketForms" :key="index">
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <div class="flex justify-between items-start">
+                                    <h3 class="font-medium" x-text="'Ticket Type #' + (index + 1)"></h3>
+                                    <button 
+                                        type="button" 
+                                        @click="removeTicketForm(index)"
+                                        class="text-red-600 hover:text-red-700"
+                                        x-show="ticketForms.length > 1"
+                                    >
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="grid md:grid-cols-3 gap-4 mt-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Name*</label>
+                                        <input 
+                                            type="text" 
+                                            x-model="form.name"
+                                            :name="`ticket_types-${index}-name`"
+                                            class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                                            required
+                                        >
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Price (NAD)*</label>
+                                        <input 
+                                            type="number" 
+                                            x-model="form.price"
+                                            :name="`ticket_types-${index}-price`"
+                                            class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                                            min="0"
+                                            step="0.01"
+                                            required
+                                        >
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Quantity*</label>
+                                        <input 
+                                            type="number" 
+                                            x-model="form.quantity"
+                                            :name="`ticket_types-${index}-quantity`"
+                                            class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                                            min="1"
+                                            required
+                                        >
+                                    </div>
+                                </div>
+                                
+                                <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Sales Start</label>
+                                        <input 
+                                            type="datetime-local" 
+                                            x-model="form.sales_start"
+                                            :name="`ticket_types-${index}-sales_start`"
+                                            class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                                        >
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Sales End*</label>
+                                        <input 
+                                            type="datetime-local" 
+                                            x-model="form.sales_end"
+                                            :name="`ticket_types-${index}-sales_end`"
+                                            class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                                            required
+                                        >
+                                    </div>
+                                </div>
+                                
+                                <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Min per Order</label>
+                                        <input 
+                                            type="number" 
+                                            x-model="form.min_per_order"
+                                            :name="`ticket_types-${index}-min_per_order`"
+                                            class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                                            min="1"
+                                        >
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Max per Order</label>
+                                        <input 
+                                            type="number" 
+                                            x-model="form.max_per_order"
+                                            :name="`ticket_types-${index}-max_per_order`"
+                                            class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                                            min="1"
+                                        >
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                                    <textarea 
+                                        x-model="form.description"
+                                        :name="`ticket_types-${index}-description`"
+                                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                                        rows="2"
+                                    ></textarea>
+                                </div>
+                                
+                                <div class="mt-4 flex items-center">
+                                    <input 
+                                        type="checkbox" 
+                                        x-model="form.is_active"
+                                        :name="`ticket_types-${index}-is_active`"
+                                        class="rounded border-gray-300 text-red-600 focus:ring-red-500"
+                                        checked
+                                    >
+                                    <label class="ml-2 text-sm text-gray-700">
+                                        Active (available for sale)
+                                    </label>
+                                </div>
+                                
+                                <input type="hidden" :name="`ticket_types-${index}-id`" x-model="form.id">
+                                <input type="hidden" :name="`ticket_types-${index}-event`" x-model="form.event">
+                            </div>
+                        </template>
+                    </div>
+
+                    <button 
+                        type="button" 
+                        @click="addTicketForm()"
+                        class="w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:text-red-600 hover:border-red-300 mt-4"
+                    >
+                        <i class="fas fa-plus mr-1"></i> Add Another Ticket Type
+                    </button>
+                </div>
+
+                <div class="flex justify-between">
+                    <button 
+                        type="button" 
+                        @click="prevStep()"
+                        class="text-gray-700 hover:text-red-600 font-medium py-3 px-6"
+                    >
+                        <i class="fas fa-arrow-left mr-1"></i> Back
+                    </button>
+                    <button 
+                        type="button" 
+                        @click="validateTickets() && nextStep()"
+                        class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg"
+                    >
+                        Next: Payment <i class="fas fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+
+<!-- Step 3: Payment -->
+<div x-show="currentStep === 3" class="space-y-6">
+    <div class="bg-white rounded-xl shadow-sm p-6">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800">Payout Details</h2>
+
+        <div class="space-y-4">
+            <!-- Payout Method Selection -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Payout Method*</label>
+                <select 
+                    x-model="payout.method"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    required
+                    @change="updatePayoutFields()"
+                >
+                    <option value="">Select payout method</option>
+                    <option value="bank">Bank Transfer (Namibia)</option>
+                    <option value="standard">Standard Bank Namibia</option>
+                    <option value="windhoek">Bank Windhoek</option>
+                    <option value="nedbank">Nedbank Namibia</option>
+                    <option value="mtc">MTC Money</option>
+                </select>
+            </div>
+
+            <!-- Bank Details (shown for bank transfers) -->
+            <div x-show="showBankDetails" class="space-y-4" x-transition>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Account Holder Name*</label>
+                        <input 
+                            type="text" 
+                            x-model="payout.account_name"
+                            name="account_name"
+                            class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                            :required="showBankDetails"
+                        >
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Account Number*</label>
+                        <input 
+                            type="text" 
+                            x-model="payout.account_number"
+                            name="account_number"
+                            class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                            :required="showBankDetails"
+                        >
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Branch Code*</label>
+                    <input 
+                        type="text" 
+                        x-model="payout.branch_code"
+                        name="branch_code"
+                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                        :required="showBankDetails"
+                    >
+                </div>
+            </div>
+
+            <!-- MTC Money Details (shown for MTC) -->
+            <div x-show="payout.method === 'mtc'" class="space-y-4" x-transition>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">MTC Phone Number*</label>
+                    <input 
+                        type="tel" 
+                        x-model="payout.mtc_number"
+                        name="mtc_number"
+                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                        placeholder="+264811234567"
+                        :required="payout.method === 'mtc'"
+                    >
+                </div>
+            </div>
+
+            <!-- Payout Information -->
+            <div class="bg-blue-50 p-4 rounded-lg">
+                <h4 class="font-medium text-blue-800 mb-2 flex items-center">
+                    <i class="fas fa-info-circle mr-2"></i> Payout Schedule
+                </h4>
+                <p class="text-sm text-gray-700">
+                    Funds will be transferred to your account within <strong>3 Namibian business days</strong>
+                    after your event ends. A <span x-text="serviceFeePercentage"></span>% + NAD <span x-text="fixedFee"></span> fee per ticket applies.
+                </p>
+                <div class="mt-2 text-sm">
+                    <p class="font-medium">Estimated Payout Calculation:</p>
+                    <p>Total Sales: NAD <span x-text="estimatedTotalSales.toFixed(2)"></span></p>
+                    <p>Fees: NAD <span x-text="estimatedFees.toFixed(2)"></span></p>
+                    <p class="font-medium">Estimated Payout: NAD <span x-text="estimatedPayout.toFixed(2)"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex justify-between">
+        <button 
+            type="button" 
+            @click="prevStep()"
+            class="text-gray-700 hover:text-red-600 font-medium py-3 px-6"
+        >
+            <i class="fas fa-arrow-left mr-1"></i> Back
+        </button>
+        <button 
+            type="button" 
+            @click="validatePayout() && nextStep()"
+            class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg"
+        >
+            Next: Review <i class="fas fa-arrow-right ml-1"></i>
+        </button>
+    </div>
+</div>
+
+<!-- Step 4: Publish -->
+<div x-show="currentStep === 4" class="space-y-6">
+    <div class="bg-white rounded-xl shadow-sm p-6">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800">Review & Publish</h2>
+
+        <div class="space-y-6">
+            <!-- Event Summary -->
+            <div class="border-b border-gray-200 pb-6">
+                <h3 class="font-medium text-lg mb-3">Event Summary</h3>
+                <div class="grid md:grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <p class="text-gray-500">Event Name</p>
+                        <p class="font-medium" x-text="eventData.title || 'Not provided'"></p>
+                    </div>
+                    <div>
+                        <p class="text-gray-500">Date</p>
+                        <p class="font-medium">
+                            <span x-text="formatDate(eventData.start_date) || 'Not provided'"></span>
+                            <template x-if="eventData.end_date">
+                                <span> to <span x-text="formatDate(eventData.end_date)"></span></span>
+                            </template>
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-gray-500">Location</p>
+                        <p class="font-medium" x-text="eventData.location || 'Not provided'"></p>
+                    </div>
+                    <div>
+                        <p class="text-gray-500">Venue</p>
+                        <p class="font-medium" x-text="eventData.venue || 'Not provided'"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ticket Types Summary -->
+            <div class="border-b border-gray-200 pb-6">
+                <h3 class="font-medium text-lg mb-3">Ticket Types</h3>
+                <template x-for="(ticket, index) in ticketForms" :key="index">
+                    <div class="mb-4 last:mb-0 p-3 bg-gray-50 rounded-lg">
+                        <div class="flex justify-between">
+                            <p class="font-medium" x-text="ticket.name || 'Unnamed ticket'"></p>
+                            <p class="text-red-600 font-medium" x-text="'NAD ' + (ticket.price || '0')"></p>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-2 text-sm text-gray-600 mt-1">
+                            <div>
+                                <i class="fas fa-ticket-alt mr-1"></i>
+                                <span x-text="ticket.quantity || '0'"></span> available
+                            </div>
+                            <div>
+                                <i class="far fa-calendar-alt mr-1"></i>
+                                Sales end: <span x-text="formatDate(ticket.sales_end) || 'Not set'"></span>
+                            </div>
+                            <div>
+                                <i class="fas fa-user-friends mr-1"></i>
+                                <span x-text="ticket.min_per_order || '1'"></span>-<span x-text="ticket.max_per_order || '10'"></span> per order
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-700 mt-2" x-text="ticket.description || 'No description'"></p>
+                    </div>
+                </template>
+            </div>
+
+            <!-- Payout Summary -->
+            <div class="border-b border-gray-200 pb-6">
+                <h3 class="font-medium text-lg mb-3">Payout Details</h3>
+                <div class="grid md:grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <p class="text-gray-500">Payout Method</p>
+                        <p class="font-medium" x-text="getPayoutMethodName(payout.method)"></p>
+                    </div>
+                    <template x-if="payout.method === 'mtc'">
+                        <div>
+                            <p class="text-gray-500">MTC Number</p>
+                            <p class="font-medium" x-text="payout.mtc_number || 'Not provided'"></p>
+                        </div>
+                    </template>
+                    <template x-if="showBankDetails">
+                        <div>
+                            <p class="text-gray-500">Account Holder</p>
+                            <p class="font-medium" x-text="payout.account_name || 'Not provided'"></p>
+                        </div>
+                    </template>
+                    <template x-if="showBankDetails">
+                        <div>
+                            <p class="text-gray-500">Account Number</p>
+                            <p class="font-medium" x-text="payout.account_number ? '••••' + payout.account_number.slice(-4) : 'Not provided'"></p>
+                        </div>
+                    </template>
+                </div>
+                <div class="mt-4 bg-gray-50 p-3 rounded-lg">
+                    <p class="font-medium">Estimated Payout: NAD <span x-text="estimatedPayout.toFixed(2)"></span></p>
+                    <p class="text-sm text-gray-600">(Total sales: NAD <span x-text="estimatedTotalSales.toFixed(2)"></span> - Fees: NAD <span x-text="estimatedFees.toFixed(2)"></span>)</p>
+                </div>
+            </div>
+
+            <!-- Confirmation -->
+            <div class="bg-green-50 p-4 rounded-lg">
+                <h4 class="font-medium text-green-800 mb-2 flex items-center">
+                    <i class="fas fa-check-circle mr-2"></i> Ready to Go Live!
+                </h4>
+                <p class="text-sm text-gray-700">
+                    Your event will be visible to thousands of Namibian attendees. You can edit details anytime
+                    from your dashboard.
+                </p>
+            </div>
+
+            <!-- Terms Agreement -->
+            <div class="flex items-start">
+                <input 
+                    type="checkbox" 
+                    id="terms-agree" 
+                    class="mt-1 mr-2 rounded border-gray-300 text-red-600 focus:ring-red-500"
+                    required
+                    x-model="termsAgreed"
+                >
+                <label for="terms-agree" class="text-sm text-gray-700">
+                    I agree to NamTix's <a href="/terms" class="text-red-600 hover:underline">Terms of
+                        Service</a> and confirm I have rights to host this event.
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex justify-between">
+        <button 
+            type="button" 
+            @click="prevStep()"
+            class="text-gray-700 hover:text-red-600 font-medium py-3 px-6"
+        >
+            <i class="fas fa-arrow-left mr-1"></i> Back
+        </button>
+        <button 
+            type="submit" 
+            class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg"
+            :disabled="!termsAgreed"
+            :class="{'opacity-50 cursor-not-allowed': !termsAgreed}"
+        >
+            Publish Event <i class="fas fa-rocket ml-1"></i>
+        </button>
+    </div>
+</div>
+        </form>
+    </main>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('eventForm', () => ({
+                currentStep: 1,
+                steps: [
+                    { name: 'Event Details' },
+                    { name: 'Tickets' },
+                    { name: 'Payment' },
+                    { name: 'Publish' }
+                ],
+                ticketForms: [],
+                eventData: {},
+                
+                init() {
+                    // Initialize with at least one ticket form
+                    if (this.ticketForms.length === 0) {
+                        this.addTicketForm();
+                    }
+                    
+                    // Capture event data from form fields
+                    this.$watch('currentStep', (step) => {
+                        if (step === 4) {
+                            this.collectEventData();
+                        }
+                    });
+                },
+                
+                collectEventData() {
+                    // Get values from form fields
+                    const form = this.$el.querySelector('form');
+                    this.eventData = {
+                        title: form.querySelector('[name="title"]')?.value,
+                        start_date: form.querySelector('[name="start_date"]')?.value,
+                        end_date: form.querySelector('[name="end_date"]')?.value,
+                        location: form.querySelector('[name="location"]')?.value,
+                        venue: form.querySelector('[name="venue"]')?.value,
+                    };
+                },
+                
+                goToStep(step) {
+                    this.currentStep = step;
+                },
+                
+                nextStep() {
+                    if (this.currentStep < this.steps.length) {
+                        this.currentStep++;
+                    }
+                },
+                
+                prevStep() {
+                    if (this.currentStep > 1) {
+                        this.currentStep--;
+                    }
+                },
+                
+                addTicketForm() {
+                    this.ticketForms.push({
+                        id: '',
+                        name: '',
+                        price: '',
+                        quantity: '',
+                        sales_start: '',
+                        sales_end: '',
+                        min_per_order: 1,
+                        max_per_order: 10,
+                        description: '',
+                        is_active: true,
+                        event: ''
+                    });
+                    
+                    // Update management form count
+                    const totalForms = this.$el.querySelector('#id_ticket_types-TOTAL_FORMS');
+                    if (totalForms) {
+                        totalForms.value = this.ticketForms.length;
+                    }
+                },
+                
+                removeTicketForm(index) {
+                    this.ticketForms.splice(index, 1);
+                    
+                    // Update management form count
+                    const totalForms = this.$el.querySelector('#id_ticket_types-TOTAL_FORMS');
+                    if (totalForms) {
+                        totalForms.value = this.ticketForms.length;
+                    }
+                },
+                
+                validateTickets() {
+                    // Basic validation - ensure at least one ticket has required fields
+                    const valid = this.ticketForms.some(ticket => 
+                        ticket.name && ticket.price && ticket.quantity && ticket.sales_end
+                    );
+                    
+                    if (!valid) {
+                        alert('Please add at least one valid ticket type with name, price, quantity and sales end date.');
+                        return false;
+                    }
+                    
+                    return true;
+                }
+            }));
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+</body>
+{% endblock content %}

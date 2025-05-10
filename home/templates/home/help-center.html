@@ -1,0 +1,140 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+<section class="bg-gray-50 py-16">
+    <div class="container mx-auto px-4 max-w-6xl">
+        <!-- Header -->
+        <div class="text-center mb-16">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">NamTix Help Center</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Find answers to common questions or get support
+            </p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="max-w-2xl mx-auto mb-16">
+            <div class="relative">
+                <input type="text" placeholder="Search help articles..." 
+                    class="w-full px-6 py-4 rounded-xl border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                <button class="absolute right-3 top-3.5 text-gray-400 hover:text-red-600">
+                    <i class="fas fa-search text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Help Categories -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            <!-- Category 1 -->
+            <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-ticket-alt text-red-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-3">Buying Tickets</h3>
+                <ul class="space-y-2 text-gray-600">
+                    <li><a href="#" class="hover:text-red-600 hover:underline">How to purchase tickets</a></li>
+                    <li><a href="#" class="hover:text-red-600 hover:underline">Payment methods</a></li>
+                    <li><a href="#" class="hover:text-red-600 hover:underline">Using promo codes</a></li>
+                    <li><a href="#" class="hover:text-red-600 hover:underline">Ticket delivery options</a></li>
+                </ul>
+            </div>
+
+            <!-- Category 2 -->
+            <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-user text-blue-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-3">Account Help</h3>
+                <ul class="space-y-2 text-gray-600">
+                    <li><a href="#" class="hover:text-red-600 hover:underline">Creating an account</a></li>
+                    <li><a href="#" class="hover:text-red-600 hover:underline">Password reset</a></li>
+                    <li><a href="#" class="hover:text-red-600 hover:underline">Updating profile</a></li>
+                    <li><a href="#" class="hover:text-red-600 hover:underline">Privacy settings</a></li>
+                </ul>
+            </div>
+
+            <!-- Category 3 -->
+            <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-calendar-alt text-green-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-3">Event Information</h3>
+                <ul class="space-y-2 text-gray-600">
+                    <li><a href="#" class="hover:text-red-600 hover:underline">Finding events</a></li>
+                    <li><a href="#" class="hover:text-red-600 hover:underline">Event cancellations</a></li>
+                    <li><a href="#" class="hover:text-red-600 hover:underline">Venue information</a></li>
+                    <li><a href="#" class="hover:text-red-600 hover:underline">Age restrictions</a></li>
+                </ul>
+            </div>
+
+            <!-- Category 4 -->
+            <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-exchange-alt text-purple-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-3">Refunds & Exchanges</h3>
+                <ul class="space-y-2 text-gray-600">
+                    <li><a href="#" class="hover:text-red-600 hover:underline">Refund policy</a></li>
+                    <li><a href="#" class="hover:text-red-600 hover:underline">Ticket transfers</a></li>
+                    <li><a href="#" class="hover:text-red-600 hover:underline">Name changes</a></li>
+                    <li><a href="#" class="hover:text-red-600 hover:underline">Lost tickets</a></li>
+                </ul>
+            </div>
+
+            <!-- Category 5 -->
+            <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-mobile-alt text-yellow-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-3">Technical Help</h3>
+                <ul class="space-y-2 text-gray-600">
+                    <li><a href="#" class="hover:text-red-600 hover:underline">Mobile app issues</a></li>
+                    <li><a href="#" class="hover:text-red-600 hover:underline">QR code problems</a></li>
+                    <li><a href="#" class="hover:text-red-600 hover:underline">Browser compatibility</a></li>
+                    <li><a href="#" class="hover:text-red-600 hover:underline">Notification settings</a></li>
+                </ul>
+            </div>
+
+            <!-- Category 6 -->
+            <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
+                    <i class="fas fa-users text-indigo-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-3">For Organizers</h3>
+                <ul class="space-y-2 text-gray-600">
+                    <li><a href="#" class="hover:text-red-600 hover:underline">Creating events</a></li>
+                    <li><a href="#" class="hover:text-red-600 hover:underline">Ticket types</a></li>
+                    <li><a href="#" class="hover:text-red-600 hover:underline">Managing attendees</a></li>
+                    <li><a href="#" class="hover:text-red-600 hover:underline">Payout information</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Support Options -->
+        <div class="bg-white rounded-xl shadow-md p-8 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Still Need Help?</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="text-center p-4 border border-gray-200 rounded-lg">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-headset text-red-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Contact Support</h3>
+                    <p class="text-gray-600 mb-4">Our Namibia-based team is ready to assist you</p>
+                    <a href="/contact" class="inline-block bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-6 rounded-lg transition">
+                        Contact Us
+                    </a>
+                </div>
+                <div class="text-center p-4 border border-gray-200 rounded-lg">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fab fa-whatsapp text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">WhatsApp Support</h3>
+                    <p class="text-gray-600 mb-4">Get quick answers via WhatsApp</p>
+                    <a href="https://wa.me/264812345678" class="inline-block bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-lg transition">
+                        Chat Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

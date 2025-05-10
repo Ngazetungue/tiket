@@ -1,0 +1,113 @@
+{% extends "home/base.html" %}
+{% load static %}
+{% block content %}
+<main class="container mx-auto px-4 py-12 max-w-5xl">
+    <!-- Success Alert -->
+    <div class="bg-green-100 border-l-4 border-green-500 p-5 rounded-md shadow-sm mb-10">
+        <div class="flex items-start space-x-4">
+            <i class="fas fa-check-circle text-green-600 text-2xl mt-1"></i>
+            <div>
+                <h3 class="text-lg font-semibold text-green-800">Payment Successful!</h3>
+                <p class="text-green-700">
+                    Your tickets for <span class="font-medium">{{ event.title }}</span> have been confirmed. 
+                    A receipt has been sent to <span class="font-medium">{{ customer_email }}</span>.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Left Column: Ticket -->
+        <div class="lg:w-1/2">
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+                <!-- Ticket Header -->
+                <div class="bg-gradient-to-r from-red-600 to-red-700 text-white p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h2 class="text-2xl font-bold">{{ event.title }}</h2>
+                            <p class="text-sm text-white/80">{{ ticket_type }} Ticket</p>
+                        </div>
+                        <span class="bg-white text-red-600 font-semibold px-3 py-1 rounded-full text-xs">
+                            #{{ ticket_reference }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Ticket Body -->
+                <div class="p-6 space-y-6">
+                    <!-- QR Code -->
+                    <div class="flex justify-center">
+                        <div class="bg-gray-100 p-4 rounded-xl">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ ticket_reference }}" 
+                                 alt="QR Code" class="w-40 h-40">
+                        </div>
+                    </div>
+
+                    <!-- Ticket Details -->
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-user text-red-500 w-6 mr-2 text-center"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Ticket Holder</p>
+                                <p class="font-medium text-gray-800">{{ customer_name }}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-calendar-day text-red-500 w-6 mr-2 text-center"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Date & Time</p>
+                                <p class="font-medium text-gray-800">
+                                    {{ event.start_date|date:"F j, Y" }} at {{ event.start_time|time:"g:i A" }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-red-500 w-6 mr-2 text-center"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Venue</p>
+                                <p class="font-medium text-gray-800">{{ event.venue }}, {{ event.location }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Barcode -->
+                    <div class="border-t border-gray-200 pt-4 text-center">
+                        <p class="text-sm text-gray-500 mb-2">Scan this barcode at entry</p>
+                        <div class="bg-gray-100 inline-block p-2 rounded-md">
+                            <img src="https://barcode.tec-it.com/barcode.ashx?data={{ ticket_reference }}&code=Code128&dpi=96" 
+                                 alt="Barcode" class="h-12">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ticket Footer -->
+                <div class="bg-gray-50 p-4 border-t border-gray-200 text-sm flex justify-between text-gray-600">
+                    <span>Issued on: {% now "F j, Y" %}</span>
+                    <span class="text-green-600 font-semibold">Valid</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Event Details -->
+        <div class="lg:w-1/2">
+            <div class="bg-white rounded-2xl shadow-md p-6 border border-gray-200">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Event Information</h2>
+                <img src="{{ event.image.url }}" alt="{{ event.title }}" 
+                     class="w-full h-48 object-cover rounded-lg mb-4">
+                <p class="text-gray-700 mb-4 leading-relaxed">{{ event.description }}</p>
+
+                <div class="space-y-3">
+                    <div class="flex items-start">
+                        <i class="fas fa-info-circle text-red-500 mt-1 mr-2"></i>
+                        <div>
+                            <p class="font-semibold text-gray-800">Important Info</p>
+                            <p class="text-sm text-gray-600">{{ event.important_info }}</p>
+                        </div>
+                    </div>
+                    <!-- Add more event metadata here as needed -->
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,665 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block content %}
+<body class="bg-gray-50">
+<!-- Main Container -->
+<div class="min-h-screen">
+    <!-- Checkout Section (Visible by default) -->
+    <div id="checkout-section">
+        <!-- Ticket Checkout Header -->
+        <header class="bg-gradient-to-r from-red-600 to-red-700 text-white py-12 shadow-md">
+            <div class="container mx-auto px-4 text-center">
+                <h1 class="text-4xl font-extrabold tracking-tight mb-4">🎟️ Secure Your Ticket</h1>
+                <p class="text-lg opacity-90">Complete your booking for this amazing event</p>
+            </div>
+        </header>
+
+        <!-- Main Checkout Content -->
+        <main class="container mx-auto px-4 py-8 max-w-6xl">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Left Column - Event & Ticket Info -->
+                <div class="lg:w-2/5">
+                    <!-- Event Details Card -->
+                    <div class="bg-white rounded-xl shadow-sm p-6 mb-6 border border-gray-200">
+                        <h2 class="text-xl font-bold mb-4 flex items-center">
+                            <i class="fas fa-info-circle text-red-500 mr-2"></i> Event Details
+                        </h2>
+                        
+                        <div class="mb-4">
+                            <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+                                alt="Event" class="w-full h-48 object-cover rounded-lg mb-4">
+                            
+                            <h3 class="text-lg font-bold mb-2">{{ event.title }}</h3>
+                            <p class="text-gray-700 mb-4">
+                                {{ event.description }}
+                            </p>
+                            
+                            <div class="space-y-3">
+                                <div class="flex items-start">
+                                    <i class="fas fa-calendar-day text-red-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <p class="font-medium">Date & Time</p>
+                                        <p class="text-sm text-gray-600">{{ event.start_date }}</p>
+                                        <p class="text-xs text-gray-500">Doors open at 17:30</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <i class="fas fa-map-marker-alt text-red-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <p class="font-medium">Venue</p>
+                                        <p class="text-sm text-gray-600">{{ event.venue }}, {{ event.location }}</p>
+                                        <a href="#" class="text-xs text-red-600 hover:underline">View on map</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <i class="fas fa-utensils text-red-500 mt-1 mr-3"></i>
+                                    <div>
+                                        <p class="font-medium">Amenities</p>
+                                        <p class="text-sm text-gray-600">Food vendors • Bars • Parking</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Your Tickets Section -->
+                    <div class="bg-white rounded-xl shadow-sm p-6 mb-6 border border-gray-200">
+                        <h2 class="text-xl font-bold mb-4 flex items-center">
+                            <i class="fas fa-ticket-alt text-red-500 mr-2"></i> Your Tickets
+                        </h2>
+
+                        <!-- Ticket Selection -->
+                        <div class="space-y-4 mb-6">
+                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                <div>
+                                    <h4 class="font-medium">General Admission</h4>
+                                    <p class="text-sm text-gray-500">Access to all festival areas</p>
+                                </div>
+                                <div class="flex items-center">
+                                    <button class="ticket-minus w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">-</button>
+                                    <span class="ticket-quantity mx-4">2</span>
+                                    <button class="ticket-plus w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center">+</button>
+                                    <span class="ticket-price ml-6 font-bold">NAD 300</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Promo Code -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Promo Code</label>
+                            <div class="flex">
+                                <input type="text" placeholder="Enter code"
+                                    class="flex-1 px-4 py-2 rounded-l-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                <button class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-r-lg text-gray-700">
+                                    Apply
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Order Summary -->
+                        <div class="border-t border-gray-200 pt-4">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-600">Subtotal</span>
+                                <span class="subtotal">NAD 600</span>
+                            </div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-600">Service Fee</span>
+                                <span class="service-fee">NAD 30</span>
+                            </div>
+                            <div class="flex justify-between font-bold text-lg pt-2 border-t border-gray-200">
+                                <span>Total</span>
+                                <span class="total-amount">NAD 630</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Need Help -->
+                    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+                        <h3 class="font-bold mb-3 flex items-center">
+                            <i class="fas fa-headset text-red-500 mr-2"></i> Need Help?
+                        </h3>
+                        <p class="text-sm text-gray-600 mb-3">Our Namibia-based support team is ready to assist you.</p>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <a href="https://wa.me/264812345678"
+                                class="bg-green-100 hover:bg-green-200 text-green-800 px-4 py-2 rounded-lg text-sm flex items-center justify-center">
+                                <i class="fab fa-whatsapp mr-2"></i> WhatsApp Us
+                            </a>
+                            <a href="tel:+264612345678"
+                                class="bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-lg text-sm flex items-center justify-center">
+                                <i class="fas fa-phone mr-2"></i> Call +264 61 234 5678
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Checkout Form -->
+                <div class="lg:w-3/5">
+                    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200 sticky top-4">
+                        <h2 class="text-xl font-bold mb-6">Complete Your Purchase</h2>
+
+                        <!-- Guest Checkout Option -->
+                        <div class="mb-6 p-4 bg-blue-50 rounded-lg">
+                            <div class="flex items-start">
+                                <input type="checkbox" id="guest-checkout" checked class="mt-1 mr-3">
+                                <label for="guest-checkout" class="flex-1">
+                                    <span class="font-medium">Continue as Guest</span>
+                                    <p class="text-sm text-gray-600 mt-1">No account needed. We'll email your tickets.</p>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Contact Info -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email or Phone Number*</label>
+                            <input type="text" placeholder="example@email.com or 0812345678"
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                            <p class="text-xs text-gray-500 mt-1">Where should we send your tickets?</p>
+                        </div>
+
+                        <!-- Payment Methods -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-3">Payment Method*</label>
+                            <div class="space-y-3">
+                                <!-- MTC Money (Featured First) -->
+                                <div class="payment-method selected border-2 border-red-500 rounded-lg p-4 cursor-pointer transition"
+                                    onclick="selectPayment('mtc')">
+                                    <div class="flex items-center">
+                                        <div class="bg-blue-100 p-2 rounded-lg mr-4">
+                                            <img src="https://via.placeholder.com/30x20/3B82F6/FFFFFF?text=MTC" alt="MTC Money" class="h-5">
+                                        </div>
+                                        <div class="flex-1">
+                                            <h4 class="font-medium">MTC Money</h4>
+                                            <p class="text-xs text-gray-500">Pay instantly via your MTC mobile wallet</p>
+                                        </div>
+                                        <i class="fas fa-check-circle text-red-500 text-xl"></i>
+                                    </div>
+                                </div>
+
+                                <!-- Telecom Pay -->
+                                <div class="payment-method border border-gray-200 rounded-lg p-4 cursor-pointer transition hover:border-red-300"
+                                    onclick="selectPayment('telecom')">
+                                    <div class="flex items-center">
+                                        <div class="bg-green-100 p-2 rounded-lg mr-4">
+                                            <img src="https://via.placeholder.com/30x20/10B981/FFFFFF?text=TN" alt="Telecom Pay" class="h-5">
+                                        </div>
+                                        <div class="flex-1">
+                                            <h4 class="font-medium">Telecom Pay</h4>
+                                            <p class="text-xs text-gray-500">Secure payment via Telecom Namibia</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Credit Card -->
+                                <div class="payment-method border border-gray-200 rounded-lg p-4 cursor-pointer transition hover:border-red-300"
+                                    onclick="selectPayment('card')">
+                                    <div class="flex items-center">
+                                        <div class="bg-purple-100 p-2 rounded-lg mr-4 flex items-center justify-center w-10">
+                                            <i class="fab fa-cc-mastercard text-purple-800 text-xl"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <h4 class="font-medium">Credit/Debit Card</h4>
+                                            <p class="text-xs text-gray-500">Visa, Mastercard accepted</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Bank Transfer -->
+                                <div class="payment-method border border-gray-200 rounded-lg p-4 cursor-pointer transition hover:border-red-300"
+                                    onclick="selectPayment('bank')">
+                                    <div class="flex items-center">
+                                        <div class="bg-yellow-100 p-2 rounded-lg mr-4 flex items-center justify-center w-10">
+                                            <i class="fas fa-university text-yellow-600 text-xl"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <h4 class="font-medium">Bank Transfer</h4>
+                                            <p class="text-xs text-gray-500">EFT from any Namibian bank</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Forms -->
+                        <!-- MTC Money Payment Form (Initially Visible) -->
+                        <div id="mtc-payment" class="slide-up mb-6">
+                            <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                                <p class="text-sm text-blue-800 flex items-center">
+                                    <i class="fas fa-info-circle mr-2"></i> You'll complete payment on the MTC Money app after checkout
+                                </p>
+                            </div>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">MTC Phone Number*</label>
+                                    <div class="flex">
+                                        <span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                                            +264 81
+                                        </span>
+                                        <input type="tel" placeholder="234 5678"
+                                            class="flex-1 px-4 py-3 rounded-r-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Telecom Pay Payment Form -->
+                        <div id="telecom-payment" class="hidden slide-up mb-6">
+                            <div class="bg-green-50 p-4 rounded-lg mb-4">
+                                <p class="text-sm text-green-800 flex items-center">
+                                    <i class="fas fa-info-circle mr-2"></i> You'll be redirected to Telecom Pay to complete your payment
+                                </p>
+                            </div>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Telecom Phone Number*</label>
+                                    <div class="flex">
+                                        <span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                                            +264 85
+                                        </span>
+                                        <input type="tel" placeholder="234 5678"
+                                            class="flex-1 px-4 py-3 rounded-r-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Credit Card Payment Form -->
+                        <div id="card-payment" class="hidden slide-up mb-6">
+                            <div class="bg-purple-50 p-4 rounded-lg mb-4">
+                                <p class="text-sm text-purple-800 flex items-center">
+                                    <i class="fas fa-info-circle mr-2"></i> Secure card payment processed by PayGate
+                                </p>
+                            </div>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Card Number*</label>
+                                    <input type="text" placeholder="1234 5678 9012 3456"
+                                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Expiry Date*</label>
+                                        <input type="text" placeholder="MM/YY"
+                                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">CVV*</label>
+                                        <input type="text" placeholder="123"
+                                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bank Transfer Payment Form -->
+                        <div id="bank-payment" class="hidden slide-up mb-6">
+                            <div class="bg-yellow-50 p-4 rounded-lg mb-4">
+                                <p class="text-sm text-yellow-800 flex items-center">
+                                    <i class="fas fa-info-circle mr-2"></i> You'll receive banking details after checkout
+                                </p>
+                            </div>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Bank Name*</label>
+                                    <select class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                        <option value="">Select your bank</option>
+                                        <option>First National Bank Namibia</option>
+                                        <option>Standard Bank Namibia</option>
+                                        <option>Bank Windhoek</option>
+                                        <option>Nedbank Namibia</option>
+                                        <option>Other Namibian Bank</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Account Holder Name*</label>
+                                    <input type="text" placeholder="As it appears on your bank account"
+                                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Terms & Complete Purchase -->
+                        <div class="mb-6">
+                            <div class="flex items-start">
+                                <input type="checkbox" id="terms-agree" class="mt-1 mr-3">
+                                <label for="terms-agree" class="text-sm text-gray-700">
+                                    I agree to NamTix's <a href="/terms" class="text-red-600 hover:underline">Terms of Service</a>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button id="complete-purchase"
+                            class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-6 rounded-lg shadow-lg transition duration-200">
+                            Complete Purchase - <span class="total-amount">NAD 630</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Ticket Details Section (Hidden initially) -->
+    <div id="ticket-section" class="hidden">
+        <!-- Ticket Details Header -->
+        <header class="bg-gradient-to-r from-red-600 to-red-700 text-white py-12 shadow-md">
+            <div class="container mx-auto px-4 text-center">
+                <h1 class="text-4xl font-extrabold tracking-tight mb-4">🎟️ Your Ticket Details</h1>
+                <p class="text-lg opacity-90">Here's everything you need for the event</p>
+            </div>
+        </header>
+
+        <!-- Main Ticket Content -->
+        <main class="container mx-auto px-4 py-8 max-w-4xl">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Left Column - Ticket Card -->
+                <div class="lg:w-1/2">
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+                        <!-- Ticket Header -->
+                        <div class="bg-gradient-to-r from-red-600 to-red-700 text-white p-6">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h2 class="text-2xl font-bold">Windhoek Jazz Festival</h2>
+                                    <p class="text-sm opacity-90">General Admission Ticket</p>
+                                </div>
+                                <div class="bg-white text-red-600 px-3 py-1 rounded-full text-sm font-bold">
+                                    #NAMTIX-5XK9B2
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ticket Body -->
+                        <div class="p-6">
+                            <!-- QR Code -->
+                            <div class="flex justify-center mb-6">
+                                <div class="bg-gray-100 p-4 rounded-lg">
+                                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=NAMTIX-5XK9B2" 
+                                         alt="Ticket QR Code" class="w-40 h-40">
+                                </div>
+                            </div>
+
+                            <!-- Ticket Info -->
+                            <div class="space-y-4 mb-6">
+                                <div class="flex items-center">
+                                    <i class="fas fa-user text-red-500 w-6 text-center mr-2"></i>
+                                    <div>
+                                        <p class="text-sm text-gray-500">Ticket Holder</p>
+                                        <p class="font-medium">John Doe</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <i class="fas fa-calendar-day text-red-500 w-6 text-center mr-2"></i>
+                                    <div>
+                                        <p class="text-sm text-gray-500">Date & Time</p>
+                                        <p class="font-medium">May 15, 2024 at 18:00</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <i class="fas fa-map-marker-alt text-red-500 w-6 text-center mr-2"></i>
+                                    <div>
+                                        <p class="text-sm text-gray-500">Venue</p>
+                                        <p class="font-medium">National Theatre, Windhoek</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <i class="fas fa-chair text-red-500 w-6 text-center mr-2"></i>
+                                    <div>
+                                        <p class="text-sm text-gray-500">Seat</p>
+                                        <p class="font-medium">General Admission (Standing)</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Barcode -->
+                            <div class="border-t border-gray-200 pt-4">
+                                <p class="text-sm text-gray-500 mb-2 text-center">Scan this barcode at entry</p>
+                                <div class="bg-gray-100 p-2 rounded-lg flex justify-center">
+                                    <img src="https://barcode.tec-it.com/barcode.ashx?data=NAMTIX-5XK9B2&code=Code128&dpi=96" 
+                                         alt="Ticket Barcode" class="h-12">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ticket Footer -->
+                        <div class="bg-gray-50 p-4 border-t border-gray-200">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Issued on: May 1, 2024</span>
+                                <span class="text-red-600 font-medium">Valid</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Download Options -->
+                    <div class="bg-white rounded-xl shadow-sm p-6 mt-6 border border-gray-200">
+                        <h3 class="font-bold mb-4 flex items-center">
+                            <i class="fas fa-download text-red-500 mr-2"></i> Download Options
+                        </h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-3 rounded-lg flex flex-col items-center">
+                                <i class="fas fa-file-pdf text-2xl mb-1 text-red-500"></i>
+                                <span class="text-sm">PDF Ticket</span>
+                            </button>
+                            <button class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-3 rounded-lg flex flex-col items-center">
+                                <i class="fas fa-mobile-alt text-2xl mb-1 text-red-500"></i>
+                                <span class="text-sm">Add to Wallet</span>
+                            </button>
+                            <button class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-3 rounded-lg flex flex-col items-center">
+                                <i class="fas fa-file-image text-2xl mb-1 text-red-500"></i>
+                                <span class="text-sm">Image</span>
+                            </button>
+                            <button class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-3 rounded-lg flex flex-col items-center">
+                                <i class="fas fa-calendar-plus text-2xl mb-1 text-red-500"></i>
+                                <span class="text-sm">Add to Calendar</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Event Details & Actions -->
+                <div class="lg:w-1/2">
+                    <!-- Event Details -->
+                    <div class="bg-white rounded-xl shadow-sm p-6 mb-6 border border-gray-200">
+                        <h2 class="text-xl font-bold mb-4">Event Information</h2>
+                        
+                        <div class="mb-6">
+                            <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                                 alt="Windhoek Jazz Festival" class="w-full h-48 object-cover rounded-lg mb-4">
+                            
+                            <p class="text-gray-700 mb-4">
+                                The annual Windhoek Jazz Festival brings together the best jazz musicians from Namibia and 
+                                across Africa for a night of unforgettable music under the stars.
+                            </p>
+                            
+                            <div class="space-y-3">
+                                <div class="flex items-start">
+                                    <i class="fas fa-info-circle text-red-500 mt-1 mr-2"></i>
+                                    <div>
+                                        <p class="font-medium">Important Info</p>
+                                        <p class="text-sm text-gray-600">Doors open at 17:30. No outside food or drinks allowed.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <i class="fas fa-utensils text-red-500 mt-1 mr-2"></i>
+                                    <div>
+                                        <p class="font-medium">Food & Drinks</p>
+                                        <p class="text-sm text-gray-600">Food vendors and bars will be available on-site.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <i class="fas fa-parking text-red-500 mt-1 mr-2"></i>
+                                    <div>
+                                        <p class="font-medium">Parking</p>
+                                        <p class="text-sm text-gray-600">Limited parking available at the venue. Arrive early.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t border-gray-200 pt-4">
+                            <h3 class="font-bold mb-3">Share Your Tickets</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <a href="#" class="bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-lg text-sm flex items-center">
+                                    <i class="fab fa-facebook mr-2"></i> Facebook
+                                </a>
+                                <a href="#" class="bg-green-100 hover:bg-green-200 text-green-800 px-4 py-2 rounded-lg text-sm flex items-center">
+                                    <i class="fab fa-whatsapp mr-2"></i> WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transfer Ticket -->
+                    <div class="bg-white rounded-xl shadow-sm p-6 mb-6 border border-gray-200">
+                        <h3 class="font-bold mb-3 flex items-center">
+                            <i class="fas fa-exchange-alt text-red-500 mr-2"></i> Transfer Ticket
+                        </h3>
+                        <p class="text-sm text-gray-600 mb-4">
+                            Send this ticket to someone else by entering their email or phone number below.
+                        </p>
+                        
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Recipient Email or Phone</label>
+                                <input type="text" placeholder="friend@email.com or 0812345678"
+                                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                            </div>
+                            
+                            <button class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-3 px-4 rounded-lg">
+                                Send Transfer Request
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Need Help -->
+                    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+                        <h3 class="font-bold mb-3 flex items-center">
+                            <i class="fas fa-headset text-red-500 mr-2"></i> Need Help?
+                        </h3>
+                        <p class="text-sm text-gray-600 mb-3">Our Namibia-based support team is ready to assist you.</p>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <a href="https://wa.me/264812345678"
+                                class="bg-green-100 hover:bg-green-200 text-green-800 px-4 py-2 rounded-lg text-sm flex items-center justify-center">
+                                <i class="fab fa-whatsapp mr-2"></i> WhatsApp Us
+                            </a>
+                            <a href="tel:+264612345678"
+                                class="bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-lg text-sm flex items-center justify-center">
+                                <i class="fas fa-phone mr-2"></i> Call +264 61 234 5678
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Success Modal (Hidden Initially) -->
+    <div id="success-modal"
+        class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg max-w-md w-full p-8 text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-check text-green-600 text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-2">Payment Successful!</h3>
+            <p class="text-gray-600 mb-6">Your tickets have been sent via SMS and email.</p>
+
+            <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                <p class="font-medium">Windhoek Jazz Festival x<span class="ticket-quantity">2</span></p>
+                <p class="text-sm text-gray-600">Booking #: NAMTIX-5XK9B2</p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <button id="view-tickets-btn" class="bg-white border border-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-50">
+                    <i class="fas fa-ticket-alt mr-1"></i> View Tickets
+                </button>
+                <a href="#" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">
+                    <i class="fab fa-whatsapp mr-1"></i> Share via WhatsApp
+                </a>
+            </div>
+
+            <div class="mt-6 pt-6 border-t border-gray-200">
+                <p class="text-sm text-gray-600">Need help? WhatsApp +264 81 234 5678</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Payment method selection
+    function selectPayment(method) {
+        // Update UI
+        document.querySelectorAll('.payment-method').forEach(el => {
+            el.classList.remove('selected');
+        });
+        event.currentTarget.classList.add('selected');
+
+        // Show relevant form
+        document.querySelectorAll('[id$="-payment"]').forEach(el => {
+            el.classList.add('hidden');
+        });
+        document.getElementById(`${method}-payment`).classList.remove('hidden');
+    }
+
+    // Ticket quantity adjustment
+    document.querySelector('.ticket-plus').addEventListener('click', function() {
+        const quantityElement = document.querySelector('.ticket-quantity');
+        let quantity = parseInt(quantityElement.textContent);
+        quantity++;
+        quantityElement.textContent = quantity;
+        updatePricing(quantity);
+    });
+
+    document.querySelector('.ticket-minus').addEventListener('click', function() {
+        const quantityElement = document.querySelector('.ticket-quantity');
+        let quantity = parseInt(quantityElement.textContent);
+        if (quantity > 1) {
+            quantity--;
+            quantityElement.textContent = quantity;
+            updatePricing(quantity);
+        }
+    });
+
+    // Update pricing based on quantity
+    function updatePricing(quantity) {
+        const ticketPrice = 300;
+        const serviceFee = 15;
+        const subtotal = quantity * ticketPrice;
+        const totalFee = quantity * serviceFee;
+        const total = subtotal + totalFee;
+        
+        document.querySelector('.subtotal').textContent = `NAD ${subtotal}`;
+        document.querySelector('.service-fee').textContent = `NAD ${totalFee}`;
+        document.querySelector('.total-amount').textContent = `NAD ${total}`;
+        
+        // Update button text
+        document.querySelectorAll('.total-amount').forEach(el => {
+            el.textContent = `NAD ${total}`;
+        });
+    }
+
+    // Complete purchase button
+    document.getElementById('complete-purchase').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('success-modal').classList.remove('hidden');
+    });
+
+    // View tickets button in modal
+    document.getElementById('view-tickets-btn').addEventListener('click', function() {
+        document.getElementById('success-modal').classList.add('hidden');
+        document.getElementById('checkout-section').classList.add('hidden');
+        document.getElementById('ticket-section').classList.remove('hidden');
+    });
+
+    // Back to checkout button (you would add this in your ticket section header)
+    // document.getElementById('back-to-checkout').addEventListener('click', function() {
+    //     document.getElementById('ticket-section').classList.add('hidden');
+    //     document.getElementById('checkout-section').classList.remove('hidden');
+    // });
+</script>
+</body>
+{% endblock content %}
