@@ -60,7 +60,12 @@ The platform combines the robustness of Django's backend with the modern interac
 ## Screenshots
 
 ### 1. Landing Page
-![Landing Page](https://via.placeholder.com/800x450?text=Landing+Page+with+Event+Highlights)
+
+<img width="1427" alt="Screenshot 2025-06-13 at 03 11 40" src="https://github.com/user-attachments/assets/803e5e98-2449-4f55-8cd5-846ee5e1e317" />
+
+<img width="1427" alt="Screenshot 2025-06-13 at 03 12 48" src="https://github.com/user-attachments/assets/69e0ef45-25fe-4563-bd90-5c4067444bc8" />
+
+
 *Clean, modern homepage showcasing featured events with search functionality*
 
 ### 2. Event Creation
