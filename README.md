@@ -80,7 +80,6 @@ The platform combines the robustness of Django's backend with the modern interac
      - Date/time with location (map integration)
      - Available ticket types with pricing
      - Organizer information
-     - Social sharing buttons
 
 
 ### 2. Buy Tickets
@@ -105,7 +104,7 @@ The platform combines the robustness of Django's backend with the modern interac
 
    <img width="1377" alt="Screenshot 2025-06-13 at 03 15 12" src="https://github.com/user-attachments/assets/c1b4c2d7-e938-4f3c-9f4f-3fc69b04f3b8" />
 
-   - Click "Sign Up" 
+   - Click "Register" 
 
 3. **Login**
 
@@ -123,7 +122,6 @@ graph LR
 ```
 
 **Key Restrictions:**
-- ❌ Unauthenticated users see disabled "Create Event" buttons
 - ⚠️ Attempting to access `/create-event` redirects to login
 
 
